@@ -1,0 +1,394 @@
+terraform {
+  required_version = ">= 1.5.0"
+
+  required_providers {
+    hyperv-internal = {
+      source  = "roosterslab/hyperv-internal"
+      version = "0.1.0"
+    }
+  }
+}
+
+# ============================================
+# Variables
+# ============================================
+variable "endpoint" {
+  type        = string
+  description = "HyperV Management API endpoint URL"
+  default     = "http://localhost:5000"
+}
+
+variable "parent_vhdx_path" {
+  type        = string
+  description = "Path to the parent/template VHDX (Windows base image)"
+  default     = "C:/HyperV/VHDX/Users/templates/windows-server-2022-base.vhdx"
+}
+
+variable "vm_name_prefix" {
+  type        = string
+  description = "Prefix for VM names"
+  default     = "prod-win"
+}
+
+variable "switch_name" {
+  type        = string
+  description = "Hyper-V virtual switch name"
+  default     = "Default Switch"
+}
+
+# ============================================
+# Provider Configuration
+# ============================================
+provider "hyperv-internal" {
+  endpoint = var.endpoint
+
+  # Production: Windows Integrated Authentication
+  # The API will use the impersonated user's credentials
+  auth {
+    method = "negotiate"
+  }
+
+  # Enforce policy-based path validation
+  enforce_policy_paths = true
+
+  # Timeout for API operations
+  timeout_seconds = 300
+}
+
+# ============================================
+# Data Sources for Disk Planning
+# ============================================
+
+# Plan OS disk using differencing VHDX
+data "hyperv-internal_disk_plan" "web_os" {
+  vm_name    = "${var.vm_name_prefix}-web-01"
+  operation  = "differencing"
+  purpose    = "os"
+  parent_path = var.parent_vhdx_path
+}
+
+data "hyperv-internal_disk_plan" "app_os" {
+  vm_name    = "${var.vm_name_prefix}-app-01"
+  operation  = "differencing"
+  purpose    = "os"
+  parent_path = var.parent_vhdx_path
+}
+
+data "hyperv-internal_disk_plan" "db_os" {
+  vm_name    = "${var.vm_name_prefix}-db-01"
+  operation  = "differencing"
+  purpose    = "os"
+  parent_path = var.parent_vhdx_path
+}
+
+# ============================================
+# Example 1: Web Server with Differencing OS Disk
+# ============================================
+resource "hyperv-internal_vm" "web_server" {
+  name       = "${var.vm_name_prefix}-web-01"
+  generation = 2
+  cpu        = 2
+  memory     = "4GB"
+  power      = "running"
+
+  switch_name = var.switch_name
+
+  # OS disk - differencing from Windows base template
+  disk {
+    name        = "os"
+    purpose     = "os"
+    boot        = true
+    controller  = "SCSI"
+    lun         = 0
+    path        = data.hyperv-internal_disk_plan.web_os.path
+    type        = "Differencing"
+    parent_path = var.parent_vhdx_path
+  }
+
+  # Data disk for IIS logs and web content
+  disk {
+    name       = "web-data"
+    purpose    = "data"
+    controller = "SCSI"
+    lun        = 1
+    size       = "50GB"
+    type       = "Dynamic"
+  }
+
+  firmware {
+    secure_boot          = true
+    secure_boot_template = "MicrosoftWindows"
+  }
+
+  security {
+    tpm     = true
+    encrypt = false
+  }
+
+  vm_lifecycle {
+    delete_disks = true
+  }
+}
+
+# ============================================
+# Example 2: Application Server with Mixed Disks
+# ============================================
+resource "hyperv-internal_vm" "app_server" {
+  name       = "${var.vm_name_prefix}-app-01"
+  generation = 2
+  cpu        = 4
+  memory     = "8GB"
+  power      = "running"
+
+  switch_name = var.switch_name
+
+  # OS disk - differencing (fast provisioning)
+  disk {
+    name        = "os"
+    purpose     = "os"
+    boot        = true
+    controller  = "SCSI"
+    lun         = 0
+    path        = data.hyperv-internal_disk_plan.app_os.path
+    type        = "Differencing"
+    parent_path = var.parent_vhdx_path
+  }
+
+  # Application binaries disk - fixed (predictable performance)
+  disk {
+    name       = "app-binaries"
+    purpose    = "data"
+    controller = "SCSI"
+    lun        = 1
+    size       = "30GB"
+    type       = "Fixed"
+  }
+
+  # Application data disk - dynamic (grows as needed)
+  disk {
+    name       = "app-data"
+    purpose    = "data"
+    controller = "SCSI"
+    lun        = 2
+    size       = "100GB"
+    type       = "Dynamic"
+  }
+
+  firmware {
+    secure_boot          = true
+    secure_boot_template = "MicrosoftWindows"
+  }
+
+  security {
+    tpm     = true
+    encrypt = false
+  }
+
+  vm_lifecycle {
+    delete_disks = true
+  }
+}
+
+# ============================================
+# Example 3: Database Server with Performance Disks
+# ============================================
+resource "hyperv-internal_vm" "db_server" {
+  name       = "${var.vm_name_prefix}-db-01"
+  generation = 2
+  cpu        = 8
+  memory     = "16GB"
+  power      = "running"
+
+  switch_name = var.switch_name
+
+  # OS disk - differencing from base template
+  disk {
+    name        = "os"
+    purpose     = "os"
+    boot        = true
+    controller  = "SCSI"
+    lun         = 0
+    path        = data.hyperv-internal_disk_plan.db_os.path
+    type        = "Differencing"
+    parent_path = var.parent_vhdx_path
+  }
+
+  # Database files - fixed disk for consistent performance
+  disk {
+    name       = "db-files"
+    purpose    = "data"
+    controller = "SCSI"
+    lun        = 1
+    size       = "200GB"
+    type       = "Fixed"
+  }
+
+  # Transaction logs - fixed disk for write performance
+  disk {
+    name       = "db-logs"
+    purpose    = "data"
+    controller = "SCSI"
+    lun        = 2
+    size       = "50GB"
+    type       = "Fixed"
+  }
+
+  # Backup disk - dynamic (grows as needed)
+  disk {
+    name       = "db-backup"
+    purpose    = "data"
+    controller = "SCSI"
+    lun        = 3
+    size       = "500GB"
+    type       = "Dynamic"
+  }
+
+  firmware {
+    secure_boot          = true
+    secure_boot_template = "MicrosoftWindows"
+  }
+
+  security {
+    tpm     = true
+    encrypt = false
+  }
+
+  vm_lifecycle {
+    delete_disks = true
+  }
+}
+
+# ============================================
+# Example 4: VDI-Style Multiple Users from Same Parent
+# ============================================
+resource "hyperv-internal_vm" "vdi_users" {
+  count = 3
+
+  name       = "${var.vm_name_prefix}-vdi-user-${count.index + 1}"
+  generation = 2
+  cpu        = 2
+  memory     = "4GB"
+  power      = "stopped"  # VDI users start manually
+
+  switch_name = var.switch_name
+
+  # Each user gets their own differencing disk from same parent
+  # This provides massive storage savings for VDI deployments
+  new_vhd_path = "managed-path-will-be-assigned"  # API will assign path
+  vhd_type     = "Differencing"
+  parent_path  = var.parent_vhdx_path
+
+  firmware {
+    secure_boot          = true
+    secure_boot_template = "MicrosoftWindows"
+  }
+
+  security {
+    tpm     = true
+    encrypt = false
+  }
+
+  vm_lifecycle {
+    delete_disks = true
+  }
+}
+
+# ============================================
+# Example 5: Development Environment (Auto-Start)
+# ============================================
+resource "hyperv-internal_vm" "dev_workstation" {
+  name       = "${var.vm_name_prefix}-dev-01"
+  generation = 2
+  cpu        = 6
+  memory     = "12GB"
+  power      = "running"  # Auto-start for dev environment
+
+  switch_name = var.switch_name
+
+  # Clone from dev template with Visual Studio, Docker, etc. pre-installed
+  new_vhd_path = "managed-path-will-be-assigned"
+  vhd_type     = "Differencing"
+  parent_path  = var.parent_vhdx_path
+
+  firmware {
+    secure_boot          = true
+    secure_boot_template = "MicrosoftWindows"
+  }
+
+  security {
+    tpm     = true
+    encrypt = false
+  }
+
+  vm_lifecycle {
+    delete_disks = true
+  }
+}
+
+# ============================================
+# Outputs
+# ============================================
+output "web_server" {
+  description = "Web server details"
+  value = {
+    id          = hyperv-internal_vm.web_server.id
+    name        = hyperv-internal_vm.web_server.name
+    state       = hyperv-internal_vm.web_server.power
+    os_disk     = data.hyperv-internal_disk_plan.web_os.path
+  }
+}
+
+output "app_server" {
+  description = "Application server details"
+  value = {
+    id          = hyperv-internal_vm.app_server.id
+    name        = hyperv-internal_vm.app_server.name
+    state       = hyperv-internal_vm.app_server.power
+    os_disk     = data.hyperv-internal_disk_plan.app_os.path
+  }
+}
+
+output "db_server" {
+  description = "Database server details"
+  value = {
+    id          = hyperv-internal_vm.db_server.id
+    name        = hyperv-internal_vm.db_server.name
+    state       = hyperv-internal_vm.db_server.power
+    os_disk     = data.hyperv-internal_disk_plan.db_os.path
+  }
+}
+
+output "vdi_users" {
+  description = "VDI user workstations"
+  value = [
+    for vm in hyperv-internal_vm.vdi_users : {
+      id    = vm.id
+      name  = vm.name
+      state = vm.power
+    }
+  ]
+}
+
+output "dev_workstation" {
+  description = "Development workstation"
+  value = {
+    id    = hyperv-internal_vm.dev_workstation.id
+    name  = hyperv-internal_vm.dev_workstation.name
+    state = hyperv-internal_vm.dev_workstation.power
+  }
+}
+
+output "deployment_summary" {
+  description = "Deployment summary and storage savings"
+  value = {
+    total_vms           = 1 + 1 + 1 + 3 + 1  # 7 VMs total
+    production_vms      = 3  # web, app, db
+    vdi_users           = 3
+    dev_workstations    = 1
+    parent_template     = var.parent_vhdx_path
+    differencing_disks  = "All OS disks use differencing VHDXs"
+    expected_savings    = "~70-90% storage reduction for OS disks"
+    authentication      = "Windows Integrated Authentication (Negotiate)"
+    policy_enforcement  = "Enabled - all paths validated against policy"
+  }
+}

@@ -1,0 +1,62 @@
+# HyperV Terraform Provider - Configuration Example
+# Copy this file to terraform.tfvars and customize for your environment
+
+# ============================================
+# API Configuration
+# ============================================
+
+# HyperV Management API endpoint
+# For local testing: http://localhost:5000
+# For production: https://hyperv-api.yourdomain.com:5443
+endpoint = "http://localhost:5000"
+
+# ============================================
+# Template Configuration
+# ============================================
+
+# Path to the Windows Server parent template VHDX
+# This must be a fully-qualified path accessible by the API
+# Template should be:
+# - Windows Server 2019/2022 (sysprepped)
+# - Dynamic or Fixed VHDX
+# - Located in policy-allowed path
+parent_vhdx_path = "C:/HyperV/VHDX/Users/templates/windows-server-2022-base.vhdx"
+
+# ============================================
+# VM Configuration
+# ============================================
+
+# Prefix for all VM names (e.g., "prod-win" creates "prod-win-web-01")
+vm_name_prefix = "prod-win"
+
+# ============================================
+# Network Configuration
+# ============================================
+
+# Hyper-V virtual switch name
+# List available switches: Get-VMSwitch | Select-Object Name
+switch_name = "Default Switch"
+
+# ============================================
+# Advanced Configuration (Optional)
+# ============================================
+
+# Uncomment and customize these if you need to override defaults
+# defined in variables.tf
+
+# Custom VM names (uncomment to override defaults)
+# web_vm_name = "custom-web-server"
+# app_vm_name = "custom-app-server"
+# db_vm_name = "custom-db-server"
+
+# Resource sizing overrides
+# web_cpu = 4
+# web_memory = "8GB"
+# app_cpu = 8
+# app_memory = "16GB"
+# db_cpu = 16
+# db_memory = "32GB"
+
+# Storage paths (if not using API-managed paths)
+# data_disk_root = "C:/HyperV/VHDX/Data"
+# backup_disk_root = "D:/HyperV/Backups"
