@@ -1,0 +1,335 @@
+2025-11-17T03:29:42.112+0530 [INFO]  Terraform version: 1.13.4
+2025-11-17T03:29:42.112+0530 [DEBUG] using github.com/hashicorp/go-tfe v1.74.1
+2025-11-17T03:29:42.112+0530 [DEBUG] using github.com/hashicorp/hcl/v2 v2.24.0
+2025-11-17T03:29:42.112+0530 [DEBUG] using github.com/hashicorp/terraform-svchost v0.1.1
+2025-11-17T03:29:42.112+0530 [DEBUG] using github.com/zclconf/go-cty v1.16.3
+2025-11-17T03:29:42.112+0530 [INFO]  Go runtime version: go1.24.5
+2025-11-17T03:29:42.112+0530 [INFO]  CLI args: []string{"C:\\Program Files (x86)\\terraform\\terraform.exe", "apply", "-auto-approve", "-input=false", "-var", "endpoint=http://localhost:5006", "-var", "vm_name=vm-tf-01", "-var", "base_vhdx_path=C:/HyperV/VHDX/Users/templates/windows-base.vhdx"}
+2025-11-17T03:29:42.112+0530 [DEBUG] Attempting to open CLI config file: C:\Users\ws-user\Documents\projects\hyper-v-experiments\terraform-provider-hypervapi-v2\dev.tfrc
+2025-11-17T03:29:42.112+0530 [INFO]  Loading CLI configuration from C:\Users\ws-user\Documents\projects\hyper-v-experiments\terraform-provider-hypervapi-v2\dev.tfrc
+2025-11-17T03:29:42.112+0530 [DEBUG] Not reading CLI config directory because config location is overridden by environment variable
+2025-11-17T03:29:42.112+0530 [DEBUG] Explicit provider installation configuration is set
+2025-11-17T03:29:42.121+0530 [INFO]  CLI command args: []string{"apply", "-auto-approve", "-input=false", "-var", "endpoint=http://localhost:5006", "-var", "vm_name=vm-tf-01", "-var", "base_vhdx_path=C:/HyperV/VHDX/Users/templates/windows-base.vhdx"}
+2025-11-17T03:29:42.130+0530 [DEBUG] Provider registry.terraform.io/vinitsiriya/hypervapiv2 is overridden by dev_overrides
+2025-11-17T03:29:42.130+0530 [DEBUG] Provider registry.terraform.io/vinitsiriya/hypervapiv2 is overridden to load from C:\Users\ws-user\Documents\projects\hyper-v-experiments\terraform-provider-hypervapi-v2\bin
+2025-11-17T03:29:42.130+0530 [DEBUG] checking for provisioner in "../../bin"
+2025-11-17T03:29:42.131+0530 [DEBUG] Provider registry.terraform.io/vinitsiriya/hypervapiv2 is overridden by dev_overrides
+2025-11-17T03:29:42.132+0530 [INFO]  backend/local: starting Apply operation
+2025-11-17T03:29:42.147+0530 [DEBUG] Config.VerifyDependencySelections: skipping registry.terraform.io/vinitsiriya/hypervapiv2 because it's overridden by a special configuration setting
+2025-11-17T03:29:42.147+0530 [DEBUG] backend/local: Skipping interactive prompts for variables because input is disabled
+2025-11-17T03:29:42.147+0530 [DEBUG] created provider logger: level=debug
+2025-11-17T03:29:42.147+0530 [INFO]  provider: configuring client automatic mTLS
+2025-11-17T03:29:42.471+0530 [DEBUG] provider: starting plugin: path=C:/Users/ws-user/Documents/projects/hyper-v-experiments/terraform-provider-hypervapi-v2/bin/terraform-provider-hypervapiv2.exe args=["C:/Users/ws-user/Documents/projects/hyper-v-experiments/terraform-provider-hypervapi-v2/bin/terraform-provider-hypervapiv2.exe"]
+2025-11-17T03:29:42.555+0530 [DEBUG] provider: plugin started: path=C:/Users/ws-user/Documents/projects/hyper-v-experiments/terraform-provider-hypervapi-v2/bin/terraform-provider-hypervapiv2.exe pid=35908
+2025-11-17T03:29:42.555+0530 [DEBUG] provider: waiting for RPC address: plugin=C:/Users/ws-user/Documents/projects/hyper-v-experiments/terraform-provider-hypervapi-v2/bin/terraform-provider-hypervapiv2.exe
+2025-11-17T03:29:42.653+0530 [INFO]  provider.terraform-provider-hypervapiv2.exe: configuring server automatic mTLS: timestamp="2025-11-17T03:29:42.652+0530"
+2025-11-17T03:29:42.697+0530 [DEBUG] provider: using plugin: version=6
+2025-11-17T03:29:42.698+0530 [DEBUG] provider.terraform-provider-hypervapiv2.exe: plugin address: network=tcp address=127.0.0.1:10000 timestamp="2025-11-17T03:29:42.697+0530"
+2025-11-17T03:29:42.857+0530 [DEBUG] No provider meta schema returned
+2025-11-17T03:29:42.860+0530 [DEBUG] provider.stdio: received EOF, stopping recv loop: err="rpc error: code = Unavailable desc = error reading from server: EOF"
+2025-11-17T03:29:42.867+0530 [INFO]  provider: plugin process exited: plugin=C:/Users/ws-user/Documents/projects/hyper-v-experiments/terraform-provider-hypervapi-v2/bin/terraform-provider-hypervapiv2.exe id=35908
+2025-11-17T03:29:42.867+0530 [DEBUG] provider: plugin exited
+2025-11-17T03:29:42.867+0530 [DEBUG] Building and walking validate graph
+2025-11-17T03:29:42.870+0530 [DEBUG] ProviderTransformer: "data.hypervapiv2_disk_plan.os" (*terraform.NodeValidatableResource) needs provider["registry.terraform.io/vinitsiriya/hypervapiv2"]
+2025-11-17T03:29:42.870+0530 [DEBUG] ProviderTransformer: "data.hypervapiv2_policy.current" (*terraform.NodeValidatableResource) needs provider["registry.terraform.io/vinitsiriya/hypervapiv2"]
+2025-11-17T03:29:42.870+0530 [DEBUG] ProviderTransformer: "hypervapiv2_vm.win" (*terraform.NodeValidatableResource) needs provider["registry.terraform.io/vinitsiriya/hypervapiv2"]
+2025-11-17T03:29:42.873+0530 [DEBUG] ReferenceTransformer: "hypervapiv2_vm.win" references: [var.vm_name var.base_vhdx_path data.hypervapiv2_disk_plan.os]
+2025-11-17T03:29:42.876+0530 [DEBUG] ReferenceTransformer: "data.hypervapiv2_disk_plan.os" references: [var.base_vhdx_path var.vm_name]
+2025-11-17T03:29:42.876+0530 [DEBUG] ReferenceTransformer: "data.hypervapiv2_policy.current" references: []
+2025-11-17T03:29:42.876+0530 [DEBUG] ReferenceTransformer: "var.username" references: []
+2025-11-17T03:29:42.876+0530 [DEBUG] ReferenceTransformer: "var.password" references: []
+2025-11-17T03:29:42.876+0530 [DEBUG] ReferenceTransformer: "var.base_vhdx_path" references: []
+2025-11-17T03:29:42.876+0530 [DEBUG] ReferenceTransformer: "output.policy_extensions (expand)" references: [data.hypervapiv2_policy.current]
+2025-11-17T03:29:42.876+0530 [DEBUG] ReferenceTransformer: "var.endpoint" references: []
+2025-11-17T03:29:42.876+0530 [DEBUG] ReferenceTransformer: "var.vm_name" references: []
+2025-11-17T03:29:42.876+0530 [DEBUG] ReferenceTransformer: "output.base_vhdx (expand)" references: [var.base_vhdx_path]
+2025-11-17T03:29:42.876+0530 [DEBUG] ReferenceTransformer: "output.os_disk_path (expand)" references: [data.hypervapiv2_disk_plan.os]
+2025-11-17T03:29:42.876+0530 [DEBUG] ReferenceTransformer: "output.policy_roots (expand)" references: [data.hypervapiv2_policy.current]
+2025-11-17T03:29:42.876+0530 [DEBUG] ReferenceTransformer: "provider[\"registry.terraform.io/vinitsiriya/hypervapiv2\"]" references: [var.endpoint var.password var.username]
+2025-11-17T03:29:42.876+0530 [DEBUG] Starting graph walk: walkValidate
+2025-11-17T03:29:42.877+0530 [DEBUG] created provider logger: level=debug
+2025-11-17T03:29:42.878+0530 [INFO]  provider: configuring client automatic mTLS
+2025-11-17T03:29:42.988+0530 [DEBUG] provider: starting plugin: path=C:/Users/ws-user/Documents/projects/hyper-v-experiments/terraform-provider-hypervapi-v2/bin/terraform-provider-hypervapiv2.exe args=["C:/Users/ws-user/Documents/projects/hyper-v-experiments/terraform-provider-hypervapi-v2/bin/terraform-provider-hypervapiv2.exe"]
+2025-11-17T03:29:42.999+0530 [DEBUG] provider: plugin started: path=C:/Users/ws-user/Documents/projects/hyper-v-experiments/terraform-provider-hypervapi-v2/bin/terraform-provider-hypervapiv2.exe pid=12688
+2025-11-17T03:29:42.999+0530 [DEBUG] provider: waiting for RPC address: plugin=C:/Users/ws-user/Documents/projects/hyper-v-experiments/terraform-provider-hypervapi-v2/bin/terraform-provider-hypervapiv2.exe
+2025-11-17T03:29:43.096+0530 [INFO]  provider.terraform-provider-hypervapiv2.exe: configuring server automatic mTLS: timestamp="2025-11-17T03:29:43.096+0530"
+2025-11-17T03:29:43.140+0530 [DEBUG] provider: using plugin: version=6
+2025-11-17T03:29:43.140+0530 [DEBUG] provider.terraform-provider-hypervapiv2.exe: plugin address: address=127.0.0.1:10000 network=tcp timestamp="2025-11-17T03:29:43.139+0530"
+2025-11-17T03:29:43.292+0530 [DEBUG] provider.stdio: received EOF, stopping recv loop: err="rpc error: code = Unavailable desc = error reading from server: EOF"
+2025-11-17T03:29:43.305+0530 [INFO]  provider: plugin process exited: plugin=C:/Users/ws-user/Documents/projects/hyper-v-experiments/terraform-provider-hypervapi-v2/bin/terraform-provider-hypervapiv2.exe id=12688
+2025-11-17T03:29:43.305+0530 [DEBUG] provider: plugin exited
+2025-11-17T03:29:43.305+0530 [INFO]  backend/local: apply calling Plan
+2025-11-17T03:29:43.305+0530 [DEBUG] Building and walking plan graph for NormalMode
+2025-11-17T03:29:43.305+0530 [DEBUG] ProviderTransformer: "data.hypervapiv2_policy.current (expand)" (*terraform.nodeExpandPlannableResource) needs provider["registry.terraform.io/vinitsiriya/hypervapiv2"]
+2025-11-17T03:29:43.305+0530 [DEBUG] ProviderTransformer: "hypervapiv2_vm.win (expand)" (*terraform.nodeExpandPlannableResource) needs provider["registry.terraform.io/vinitsiriya/hypervapiv2"]
+2025-11-17T03:29:43.305+0530 [DEBUG] ProviderTransformer: "data.hypervapiv2_disk_plan.os (expand)" (*terraform.nodeExpandPlannableResource) needs provider["registry.terraform.io/vinitsiriya/hypervapiv2"]
+2025-11-17T03:29:43.305+0530 [DEBUG] ReferenceTransformer: "var.password" references: []
+2025-11-17T03:29:43.305+0530 [DEBUG] ReferenceTransformer: "var.base_vhdx_path" references: []
+2025-11-17T03:29:43.305+0530 [DEBUG] ReferenceTransformer: "output.policy_extensions (expand)" references: [data.hypervapiv2_policy.current (expand)]
+2025-11-17T03:29:43.305+0530 [DEBUG] ReferenceTransformer: "output.base_vhdx (expand)" references: [var.base_vhdx_path]
+2025-11-17T03:29:43.305+0530 [DEBUG] ReferenceTransformer: "output.os_disk_path (expand)" references: [data.hypervapiv2_disk_plan.os (expand)]
+2025-11-17T03:29:43.305+0530 [DEBUG] ReferenceTransformer: "provider[\"registry.terraform.io/vinitsiriya/hypervapiv2\"]" references: [var.endpoint var.password var.username]
+2025-11-17T03:29:43.305+0530 [DEBUG] ReferenceTransformer: "data.hypervapiv2_disk_plan.os (expand)" references: [var.base_vhdx_path var.vm_name]
+2025-11-17T03:29:43.305+0530 [DEBUG] ReferenceTransformer: "data.hypervapiv2_policy.current (expand)" references: []
+2025-11-17T03:29:43.305+0530 [DEBUG] ReferenceTransformer: "var.username" references: []
+2025-11-17T03:29:43.305+0530 [DEBUG] ReferenceTransformer: "var.vm_name" references: []
+2025-11-17T03:29:43.305+0530 [DEBUG] ReferenceTransformer: "output.policy_roots (expand)" references: [data.hypervapiv2_policy.current (expand)]
+2025-11-17T03:29:43.305+0530 [DEBUG] ReferenceTransformer: "hypervapiv2_vm.win (expand)" references: [var.vm_name var.base_vhdx_path data.hypervapiv2_disk_plan.os (expand)]
+2025-11-17T03:29:43.305+0530 [DEBUG] ReferenceTransformer: "var.endpoint" references: []
+2025-11-17T03:29:43.309+0530 [DEBUG] Starting graph walk: walkPlan
+2025-11-17T03:29:43.309+0530 [DEBUG] created provider logger: level=debug
+2025-11-17T03:29:43.309+0530 [INFO]  provider: configuring client automatic mTLS
+2025-11-17T03:29:43.384+0530 [DEBUG] provider: starting plugin: path=C:/Users/ws-user/Documents/projects/hyper-v-experiments/terraform-provider-hypervapi-v2/bin/terraform-provider-hypervapiv2.exe args=["C:/Users/ws-user/Documents/projects/hyper-v-experiments/terraform-provider-hypervapi-v2/bin/terraform-provider-hypervapiv2.exe"]
+2025-11-17T03:29:43.394+0530 [DEBUG] provider: plugin started: path=C:/Users/ws-user/Documents/projects/hyper-v-experiments/terraform-provider-hypervapi-v2/bin/terraform-provider-hypervapiv2.exe pid=26612
+2025-11-17T03:29:43.394+0530 [DEBUG] provider: waiting for RPC address: plugin=C:/Users/ws-user/Documents/projects/hyper-v-experiments/terraform-provider-hypervapi-v2/bin/terraform-provider-hypervapiv2.exe
+2025-11-17T03:29:43.474+0530 [INFO]  provider.terraform-provider-hypervapiv2.exe: configuring server automatic mTLS: timestamp="2025-11-17T03:29:43.474+0530"
+2025-11-17T03:29:43.523+0530 [DEBUG] provider: using plugin: version=6
+2025-11-17T03:29:43.523+0530 [DEBUG] provider.terraform-provider-hypervapiv2.exe: plugin address: address=127.0.0.1:10000 network=tcp timestamp="2025-11-17T03:29:43.523+0530"
+2025-11-17T03:29:43.644+0530 [INFO]  provider.terraform-provider-hypervapiv2.exe: hypervapiv2 configured: auth=negotiate endpoint=http://localhost:5006 @caller=C:/Users/ws-user/Documents/projects/hyper-v-experiments/terraform-provider-hypervapi-v2/internal/provider/provider.go:134 @module=hypervapiv2 tf_provider_addr=registry.terraform.io/vinitsiriya/hypervapiv2 tf_req_id=de39eb76-9ac5-e035-f4ee-12b3813fe1a4 tf_rpc=ConfigureProvider timestamp="2025-11-17T03:29:43.644+0530"
+2025-11-17T03:29:43.644+0530 [WARN]  provider.terraform-provider-hypervapiv2.exe: Response contains warning diagnostic: diagnostic_severity=WARNING tf_proto_version=6.6 tf_provider_addr=registry.terraform.io/vinitsiriya/hypervapiv2 tf_rpc=ConfigureProvider @caller=C:/Users/ws-user/go/pkg/mod/github.com/hashicorp/terraform-plugin-go@v0.23.0/tfprotov6/internal/diag/diagnostics.go:60 @module=sdk.proto diagnostic_detail="endpoint=http://localhost:5006, auth=negotiate" diagnostic_summary="provider configured" tf_req_id=de39eb76-9ac5-e035-f4ee-12b3813fe1a4 timestamp="2025-11-17T03:29:43.644+0530"
+2025-11-17T03:29:43.646+0530 [DEBUG] ReferenceTransformer: "data.hypervapiv2_disk_plan.os" references: []
+2025-11-17T03:29:43.646+0530 [DEBUG] ReferenceTransformer: "data.hypervapiv2_policy.current" references: []
+2025-11-17T03:29:43.758+0530 [DEBUG] provider.terraform-provider-hypervapiv2.exe: Value switched to prior value due to semantic equality logic: tf_attribute_path=purpose tf_data_source_type=hypervapiv2_disk_plan tf_provider_addr=registry.terraform.io/vinitsiriya/hypervapiv2 tf_req_id=4131556a-c730-e20a-e414-e21158b19c27 @caller=C:/Users/ws-user/go/pkg/mod/github.com/hashicorp/terraform-plugin-framework@v1.11.0/internal/fwschemadata/value_semantic_equality.go:91 tf_rpc=ReadDataSource @module=sdk.framework timestamp="2025-11-17T03:29:43.758+0530"
+2025-11-17T03:29:43.758+0530 [DEBUG] provider.terraform-provider-hypervapiv2.exe: Value switched to prior value due to semantic equality logic: tf_attribute_path=operation tf_data_source_type=hypervapiv2_disk_plan @caller=C:/Users/ws-user/go/pkg/mod/github.com/hashicorp/terraform-plugin-framework@v1.11.0/internal/fwschemadata/value_semantic_equality.go:91 @module=sdk.framework tf_provider_addr=registry.terraform.io/vinitsiriya/hypervapiv2 tf_req_id=4131556a-c730-e20a-e414-e21158b19c27 tf_rpc=ReadDataSource timestamp="2025-11-17T03:29:43.758+0530"
+2025-11-17T03:29:43.759+0530 [DEBUG] provider.terraform-provider-hypervapiv2.exe: Value switched to prior value due to semantic equality logic: tf_req_id=4131556a-c730-e20a-e414-e21158b19c27 tf_rpc=ReadDataSource @caller=C:/Users/ws-user/go/pkg/mod/github.com/hashicorp/terraform-plugin-framework@v1.11.0/internal/fwschemadata/value_semantic_equality.go:91 @module=sdk.framework tf_attribute_path=vm_name tf_data_source_type=hypervapiv2_disk_plan tf_provider_addr=registry.terraform.io/vinitsiriya/hypervapiv2 timestamp="2025-11-17T03:29:43.758+0530"
+2025-11-17T03:29:43.759+0530 [DEBUG] provider.terraform-provider-hypervapiv2.exe: Value switched to prior value due to semantic equality logic: @module=sdk.framework tf_provider_addr=registry.terraform.io/vinitsiriya/hypervapiv2 tf_rpc=ReadDataSource @caller=C:/Users/ws-user/go/pkg/mod/github.com/hashicorp/terraform-plugin-framework@v1.11.0/internal/fwschemadata/value_semantic_equality.go:91 tf_attribute_path=clone_from tf_data_source_type=hypervapiv2_disk_plan tf_req_id=4131556a-c730-e20a-e414-e21158b19c27 timestamp="2025-11-17T03:29:43.758+0530"
+2025-11-17T03:29:43.761+0530 [DEBUG] Resource instance state not found for node "hypervapiv2_vm.win", instance hypervapiv2_vm.win
+2025-11-17T03:29:43.761+0530 [DEBUG] ReferenceTransformer: "hypervapiv2_vm.win" references: []
+2025-11-17T03:29:43.762+0530 [DEBUG] refresh: hypervapiv2_vm.win: no state, so not refreshing
+2025-11-17T03:29:43.779+0530 [DEBUG] provider.terraform-provider-hypervapiv2.exe: Marking Computed attributes with null configuration values as unknown (known after apply) in the plan to prevent potential Terraform errors: tf_provider_addr=registry.terraform.io/vinitsiriya/hypervapiv2 tf_resource_type=hypervapiv2_vm tf_rpc=PlanResourceChange @module=sdk.framework tf_req_id=539edd70-1ba9-1e70-4390-da8658a73170 @caller=C:/Users/ws-user/go/pkg/mod/github.com/hashicorp/terraform-plugin-framework@v1.11.0/internal/fwserver/server_planresourcechange.go:217 timestamp="2025-11-17T03:29:43.779+0530"
+2025-11-17T03:29:43.780+0530 [DEBUG] provider.terraform-provider-hypervapiv2.exe: marking computed attribute that is null in the config as unknown: @caller=C:/Users/ws-user/go/pkg/mod/github.com/hashicorp/terraform-plugin-framework@v1.11.0/internal/fwserver/server_planresourcechange.go:467 tf_attribute_path="AttributeName(\"id\")" tf_provider_addr=registry.terraform.io/vinitsiriya/hypervapiv2 @module=sdk.framework tf_req_id=539edd70-1ba9-1e70-4390-da8658a73170 tf_resource_type=hypervapiv2_vm tf_rpc=PlanResourceChange timestamp="2025-11-17T03:29:43.780+0530"
+2025-11-17T03:29:43.793+0530 [DEBUG] provider.stdio: received EOF, stopping recv loop: err="rpc error: code = Unavailable desc = error reading from server: EOF"
+2025-11-17T03:29:43.803+0530 [INFO]  provider: plugin process exited: plugin=C:/Users/ws-user/Documents/projects/hyper-v-experiments/terraform-provider-hypervapi-v2/bin/terraform-provider-hypervapiv2.exe id=26612
+2025-11-17T03:29:43.804+0530 [DEBUG] provider: plugin exited
+2025-11-17T03:29:43.805+0530 [DEBUG] building apply graph to check for errors
+2025-11-17T03:29:43.805+0530 [DEBUG] Resource state not found for node "hypervapiv2_vm.win", instance hypervapiv2_vm.win
+2025-11-17T03:29:43.806+0530 [DEBUG] ProviderTransformer: "hypervapiv2_vm.win" (*terraform.NodeApplyableResourceInstance) needs provider["registry.terraform.io/vinitsiriya/hypervapiv2"]
+2025-11-17T03:29:43.806+0530 [DEBUG] ProviderTransformer: "data.hypervapiv2_policy.current (expand)" (*terraform.nodeExpandApplyableResource) needs provider["registry.terraform.io/vinitsiriya/hypervapiv2"]
+2025-11-17T03:29:43.806+0530 [DEBUG] ProviderTransformer: "hypervapiv2_vm.win (expand)" (*terraform.nodeExpandApplyableResource) needs provider["registry.terraform.io/vinitsiriya/hypervapiv2"]
+2025-11-17T03:29:43.806+0530 [DEBUG] ProviderTransformer: "data.hypervapiv2_disk_plan.os (expand)" (*terraform.nodeExpandApplyableResource) needs provider["registry.terraform.io/vinitsiriya/hypervapiv2"]
+2025-11-17T03:29:43.806+0530 [DEBUG] ReferenceTransformer: "output.os_disk_path (expand)" references: [data.hypervapiv2_disk_plan.os (expand)]
+2025-11-17T03:29:43.806+0530 [DEBUG] ReferenceTransformer: "hypervapiv2_vm.win (expand)" references: [var.vm_name var.base_vhdx_path data.hypervapiv2_disk_plan.os (expand)]
+2025-11-17T03:29:43.806+0530 [DEBUG] ReferenceTransformer: "data.hypervapiv2_disk_plan.os (expand)" references: [var.base_vhdx_path var.vm_name]
+2025-11-17T03:29:43.806+0530 [DEBUG] ReferenceTransformer: "var.vm_name" references: []
+2025-11-17T03:29:43.806+0530 [DEBUG] ReferenceTransformer: "var.base_vhdx_path" references: []
+2025-11-17T03:29:43.807+0530 [DEBUG] ReferenceTransformer: "hypervapiv2_vm.win" references: [var.vm_name data.hypervapiv2_disk_plan.os (expand) var.base_vhdx_path]
+2025-11-17T03:29:43.807+0530 [DEBUG] ReferenceTransformer: "provider[\"registry.terraform.io/vinitsiriya/hypervapiv2\"]" references: [var.endpoint var.password var.username]
+2025-11-17T03:29:43.807+0530 [DEBUG] ReferenceTransformer: "data.hypervapiv2_policy.current (expand)" references: []
+2025-11-17T03:29:43.807+0530 [DEBUG] ReferenceTransformer: "var.endpoint" references: []
+2025-11-17T03:29:43.807+0530 [DEBUG] ReferenceTransformer: "var.username" references: []
+2025-11-17T03:29:43.807+0530 [DEBUG] ReferenceTransformer: "var.password" references: []
+2025-11-17T03:29:43.807+0530 [DEBUG] ReferenceTransformer: "output.policy_roots (expand)" references: [data.hypervapiv2_policy.current (expand)]
+2025-11-17T03:29:43.807+0530 [DEBUG] ReferenceTransformer: "output.policy_extensions (expand)" references: [data.hypervapiv2_policy.current (expand)]
+2025-11-17T03:29:43.807+0530 [DEBUG] ReferenceTransformer: "output.base_vhdx (expand)" references: [var.base_vhdx_path]
+2025-11-17T03:29:43.809+0530 [INFO]  backend/local: apply calling Apply
+2025-11-17T03:29:43.809+0530 [DEBUG] Building and walking apply graph for NormalMode plan
+2025-11-17T03:29:43.809+0530 [DEBUG] Resource state not found for node "hypervapiv2_vm.win", instance hypervapiv2_vm.win
+2025-11-17T03:29:43.809+0530 [DEBUG] ProviderTransformer: "hypervapiv2_vm.win" (*terraform.NodeApplyableResourceInstance) needs provider["registry.terraform.io/vinitsiriya/hypervapiv2"]
+2025-11-17T03:29:43.809+0530 [DEBUG] ProviderTransformer: "hypervapiv2_vm.win (expand)" (*terraform.nodeExpandApplyableResource) needs provider["registry.terraform.io/vinitsiriya/hypervapiv2"]
+2025-11-17T03:29:43.809+0530 [DEBUG] ProviderTransformer: "data.hypervapiv2_policy.current (expand)" (*terraform.nodeExpandApplyableResource) needs provider["registry.terraform.io/vinitsiriya/hypervapiv2"]
+2025-11-17T03:29:43.809+0530 [DEBUG] ProviderTransformer: "data.hypervapiv2_disk_plan.os (expand)" (*terraform.nodeExpandApplyableResource) needs provider["registry.terraform.io/vinitsiriya/hypervapiv2"]
+2025-11-17T03:29:43.812+0530 [DEBUG] ReferenceTransformer: "output.os_disk_path (expand)" references: [data.hypervapiv2_disk_plan.os (expand)]
+2025-11-17T03:29:43.812+0530 [DEBUG] ReferenceTransformer: "output.policy_roots (expand)" references: [data.hypervapiv2_policy.current (expand)]
+2025-11-17T03:29:43.812+0530 [DEBUG] ReferenceTransformer: "output.base_vhdx (expand)" references: [var.base_vhdx_path]
+2025-11-17T03:29:43.812+0530 [DEBUG] ReferenceTransformer: "hypervapiv2_vm.win" references: [var.vm_name var.base_vhdx_path data.hypervapiv2_disk_plan.os (expand)]
+2025-11-17T03:29:43.812+0530 [DEBUG] ReferenceTransformer: "hypervapiv2_vm.win (expand)" references: [var.vm_name data.hypervapiv2_disk_plan.os (expand) var.base_vhdx_path]
+2025-11-17T03:29:43.812+0530 [DEBUG] ReferenceTransformer: "data.hypervapiv2_policy.current (expand)" references: []
+2025-11-17T03:29:43.812+0530 [DEBUG] ReferenceTransformer: "data.hypervapiv2_disk_plan.os (expand)" references: [var.base_vhdx_path var.vm_name]
+2025-11-17T03:29:43.812+0530 [DEBUG] ReferenceTransformer: "var.base_vhdx_path" references: []
+2025-11-17T03:29:43.812+0530 [DEBUG] ReferenceTransformer: "output.policy_extensions (expand)" references: [data.hypervapiv2_policy.current (expand)]
+2025-11-17T03:29:43.812+0530 [DEBUG] ReferenceTransformer: "provider[\"registry.terraform.io/vinitsiriya/hypervapiv2\"]" references: [var.endpoint var.password var.username]
+2025-11-17T03:29:43.812+0530 [DEBUG] ReferenceTransformer: "var.password" references: []
+2025-11-17T03:29:43.812+0530 [DEBUG] ReferenceTransformer: "var.vm_name" references: []
+2025-11-17T03:29:43.812+0530 [DEBUG] ReferenceTransformer: "var.endpoint" references: []
+2025-11-17T03:29:43.812+0530 [DEBUG] ReferenceTransformer: "var.username" references: []
+2025-11-17T03:29:43.812+0530 [DEBUG] Starting graph walk: walkApply
+2025-11-17T03:29:43.814+0530 [DEBUG] created provider logger: level=debug
+2025-11-17T03:29:43.814+0530 [INFO]  provider: configuring client automatic mTLS
+2025-11-17T03:29:43.964+0530 [DEBUG] provider: starting plugin: path=C:/Users/ws-user/Documents/projects/hyper-v-experiments/terraform-provider-hypervapi-v2/bin/terraform-provider-hypervapiv2.exe args=["C:/Users/ws-user/Documents/projects/hyper-v-experiments/terraform-provider-hypervapi-v2/bin/terraform-provider-hypervapiv2.exe"]
+2025-11-17T03:29:43.967+0530 [DEBUG] provider: plugin started: path=C:/Users/ws-user/Documents/projects/hyper-v-experiments/terraform-provider-hypervapi-v2/bin/terraform-provider-hypervapiv2.exe pid=34252
+2025-11-17T03:29:43.967+0530 [DEBUG] provider: waiting for RPC address: plugin=C:/Users/ws-user/Documents/projects/hyper-v-experiments/terraform-provider-hypervapi-v2/bin/terraform-provider-hypervapiv2.exe
+2025-11-17T03:29:44.065+0530 [INFO]  provider.terraform-provider-hypervapiv2.exe: configuring server automatic mTLS: timestamp="2025-11-17T03:29:44.065+0530"
+2025-11-17T03:29:44.091+0530 [DEBUG] provider: using plugin: version=6
+2025-11-17T03:29:44.091+0530 [DEBUG] provider.terraform-provider-hypervapiv2.exe: plugin address: address=127.0.0.1:10000 network=tcp timestamp="2025-11-17T03:29:44.091+0530"
+2025-11-17T03:29:44.210+0530 [INFO]  provider.terraform-provider-hypervapiv2.exe: hypervapiv2 configured: endpoint=http://localhost:5006 tf_rpc=ConfigureProvider @caller=C:/Users/ws-user/Documents/projects/hyper-v-experiments/terraform-provider-hypervapi-v2/internal/provider/provider.go:134 @module=hypervapiv2 auth=negotiate tf_provider_addr=registry.terraform.io/vinitsiriya/hypervapiv2 tf_req_id=f0df6398-16ea-1e9b-b6f5-198fb5cf8c8c timestamp="2025-11-17T03:29:44.210+0530"
+2025-11-17T03:29:44.211+0530 [WARN]  provider.terraform-provider-hypervapiv2.exe: Response contains warning diagnostic: diagnostic_severity=WARNING tf_proto_version=6.6 @module=sdk.proto diagnostic_summary="provider configured" tf_provider_addr=registry.terraform.io/vinitsiriya/hypervapiv2 tf_req_id=f0df6398-16ea-1e9b-b6f5-198fb5cf8c8c tf_rpc=ConfigureProvider @caller=C:/Users/ws-user/go/pkg/mod/github.com/hashicorp/terraform-plugin-go@v0.23.0/tfprotov6/internal/diag/diagnostics.go:60 diagnostic_detail="endpoint=http://localhost:5006, auth=negotiate" timestamp="2025-11-17T03:29:44.210+0530"
+2025-11-17T03:29:44.228+0530 [DEBUG] provider.terraform-provider-hypervapiv2.exe: Marking Computed attributes with null configuration values as unknown (known after apply) in the plan to prevent potential Terraform errors: @caller=C:/Users/ws-user/go/pkg/mod/github.com/hashicorp/terraform-plugin-framework@v1.11.0/internal/fwserver/server_planresourcechange.go:217 tf_resource_type=hypervapiv2_vm @module=sdk.framework tf_provider_addr=registry.terraform.io/vinitsiriya/hypervapiv2 tf_req_id=5a3b4e0b-fd6f-baf5-61fa-8fb2df67b105 tf_rpc=PlanResourceChange timestamp="2025-11-17T03:29:44.227+0530"
+2025-11-17T03:29:44.232+0530 [DEBUG] provider.terraform-provider-hypervapiv2.exe: marking computed attribute that is null in the config as unknown: @module=sdk.framework tf_attribute_path="AttributeName(\"id\")" tf_req_id=5a3b4e0b-fd6f-baf5-61fa-8fb2df67b105 tf_resource_type=hypervapiv2_vm tf_rpc=PlanResourceChange @caller=C:/Users/ws-user/go/pkg/mod/github.com/hashicorp/terraform-plugin-framework@v1.11.0/internal/fwserver/server_planresourcechange.go:467 tf_provider_addr=registry.terraform.io/vinitsiriya/hypervapiv2 timestamp="2025-11-17T03:29:44.231+0530"
+2025-11-17T03:29:44.240+0530 [INFO]  Starting apply for hypervapiv2_vm.win
+2025-11-17T03:29:44.241+0530 [DEBUG] hypervapiv2_vm.win: applying the planned Create change
+2025-11-17T03:29:48.687+0530 [WARN]  provider.terraform-provider-hypervapiv2.exe: Response contains warning diagnostic: tf_proto_version=6.6 tf_req_id=6caab6e8-628e-31e9-c080-c36a23ee5a6f tf_resource_type=hypervapiv2_vm @caller=C:/Users/ws-user/go/pkg/mod/github.com/hashicorp/terraform-plugin-go@v0.23.0/tfprotov6/internal/diag/diagnostics.go:60 @module=sdk.proto diagnostic_summary="clone enqueue" tf_provider_addr=registry.terraform.io/vinitsiriya/hypervapiv2 tf_rpc=ApplyResourceChange diagnostic_detail="from=C:/HyperV/VHDX/Users/templates/windows-base.vhdx to=C:\HyperV\VHDX\Users\vm-tf-01.vhdx" diagnostic_severity=WARNING timestamp="2025-11-17T03:29:48.687+0530"
+2025-11-17T03:29:48.687+0530 [WARN]  provider.terraform-provider-hypervapiv2.exe: Response contains warning diagnostic: diagnostic_detail=target=C:\HyperV\VHDX\Users\vm-tf-01.vhdx diagnostic_severity=WARNING tf_provider_addr=registry.terraform.io/vinitsiriya/hypervapiv2 tf_rpc=ApplyResourceChange @caller=C:/Users/ws-user/go/pkg/mod/github.com/hashicorp/terraform-plugin-go@v0.23.0/tfprotov6/internal/diag/diagnostics.go:60 @module=sdk.proto diagnostic_summary="clone complete" tf_proto_version=6.6 tf_req_id=6caab6e8-628e-31e9-c080-c36a23ee5a6f tf_resource_type=hypervapiv2_vm timestamp="2025-11-17T03:29:48.687+0530"
+2025-11-17T03:29:48.687+0530 [WARN]  provider.terraform-provider-hypervapiv2.exe: Response contains warning diagnostic: diagnostic_detail=name=vm-tf-01 diagnostic_severity=WARNING diagnostic_summary="createvm request" tf_rpc=ApplyResourceChange @module=sdk.proto tf_proto_version=6.6 tf_provider_addr=registry.terraform.io/vinitsiriya/hypervapiv2 tf_req_id=6caab6e8-628e-31e9-c080-c36a23ee5a6f tf_resource_type=hypervapiv2_vm @caller=C:/Users/ws-user/go/pkg/mod/github.com/hashicorp/terraform-plugin-go@v0.23.0/tfprotov6/internal/diag/diagnostics.go:60 timestamp="2025-11-17T03:29:48.687+0530"
+2025-11-17T03:29:48.687+0530 [ERROR] provider.terraform-provider-hypervapiv2.exe: Response contains error diagnostic: @module=sdk.proto diagnostic_detail="api POST /api/v2/vms -> 403: map[code:forbidden details:<nil> message:VM name not permitted by policy: vm-tf-01] | body={\"code\":\"forbidden\",\"message\":\"VM name not permitted by policy: vm-tf-01\",\"details\":null}" diagnostic_summary="create failed" tf_req_id=6caab6e8-628e-31e9-c080-c36a23ee5a6f tf_rpc=ApplyResourceChange diagnostic_severity=ERROR tf_proto_version=6.6 tf_provider_addr=registry.terraform.io/vinitsiriya/hypervapiv2 tf_resource_type=hypervapiv2_vm @caller=C:/Users/ws-user/go/pkg/mod/github.com/hashicorp/terraform-plugin-go@v0.23.0/tfprotov6/internal/diag/diagnostics.go:58 timestamp="2025-11-17T03:29:48.687+0530"
+2025-11-17T03:29:48.694+0530 [DEBUG] State storage *statemgr.Filesystem declined to persist a state snapshot
+2025-11-17T03:29:48.694+0530 [ERROR] vertex "hypervapiv2_vm.win" error: create failed
+2025-11-17T03:29:48.714+0530 [DEBUG] provider.stdio: received EOF, stopping recv loop: err="rpc error: code = Unavailable desc = error reading from server: EOF"
+2025-11-17T03:29:48.732+0530 [INFO]  provider: plugin process exited: plugin=C:/Users/ws-user/Documents/projects/hyper-v-experiments/terraform-provider-hypervapi-v2/bin/terraform-provider-hypervapiv2.exe id=34252
+2025-11-17T03:29:48.732+0530 [DEBUG] provider: plugin exited
+2025-11-17T03:30:04.920+0530 [INFO]  Terraform version: 1.13.4
+2025-11-17T03:30:04.920+0530 [DEBUG] using github.com/hashicorp/go-tfe v1.74.1
+2025-11-17T03:30:04.920+0530 [DEBUG] using github.com/hashicorp/hcl/v2 v2.24.0
+2025-11-17T03:30:04.920+0530 [DEBUG] using github.com/hashicorp/terraform-svchost v0.1.1
+2025-11-17T03:30:04.920+0530 [DEBUG] using github.com/zclconf/go-cty v1.16.3
+2025-11-17T03:30:04.920+0530 [INFO]  Go runtime version: go1.24.5
+2025-11-17T03:30:04.920+0530 [INFO]  CLI args: []string{"C:\\Program Files (x86)\\terraform\\terraform.exe", "apply", "-auto-approve", "-input=false", "-var", "endpoint=http://localhost:5006", "-var", "vm_name=user-demo-win", "-var", "base_vhdx_path=C:/HyperV/VHDX/Users/templates/windows-base.vhdx"}
+2025-11-17T03:30:04.920+0530 [DEBUG] Attempting to open CLI config file: C:\Users\ws-user\Documents\projects\hyper-v-experiments\terraform-provider-hypervapi-v2\dev.tfrc
+2025-11-17T03:30:04.920+0530 [INFO]  Loading CLI configuration from C:\Users\ws-user\Documents\projects\hyper-v-experiments\terraform-provider-hypervapi-v2\dev.tfrc
+2025-11-17T03:30:04.920+0530 [DEBUG] Not reading CLI config directory because config location is overridden by environment variable
+2025-11-17T03:30:04.928+0530 [DEBUG] Explicit provider installation configuration is set
+2025-11-17T03:30:04.928+0530 [INFO]  CLI command args: []string{"apply", "-auto-approve", "-input=false", "-var", "endpoint=http://localhost:5006", "-var", "vm_name=user-demo-win", "-var", "base_vhdx_path=C:/HyperV/VHDX/Users/templates/windows-base.vhdx"}
+2025-11-17T03:30:04.938+0530 [DEBUG] Provider registry.terraform.io/vinitsiriya/hypervapiv2 is overridden by dev_overrides
+2025-11-17T03:30:04.938+0530 [DEBUG] Provider registry.terraform.io/vinitsiriya/hypervapiv2 is overridden to load from C:\Users\ws-user\Documents\projects\hyper-v-experiments\terraform-provider-hypervapi-v2\bin
+2025-11-17T03:30:04.938+0530 [DEBUG] checking for provisioner in "../../bin"
+2025-11-17T03:30:04.938+0530 [DEBUG] Provider registry.terraform.io/vinitsiriya/hypervapiv2 is overridden by dev_overrides
+2025-11-17T03:30:04.938+0530 [INFO]  backend/local: starting Apply operation
+2025-11-17T03:30:04.961+0530 [DEBUG] Config.VerifyDependencySelections: skipping registry.terraform.io/vinitsiriya/hypervapiv2 because it's overridden by a special configuration setting
+2025-11-17T03:30:04.961+0530 [DEBUG] backend/local: Skipping interactive prompts for variables because input is disabled
+2025-11-17T03:30:04.961+0530 [DEBUG] created provider logger: level=debug
+2025-11-17T03:30:04.961+0530 [INFO]  provider: configuring client automatic mTLS
+2025-11-17T03:30:05.323+0530 [DEBUG] provider: starting plugin: path=C:/Users/ws-user/Documents/projects/hyper-v-experiments/terraform-provider-hypervapi-v2/bin/terraform-provider-hypervapiv2.exe args=["C:/Users/ws-user/Documents/projects/hyper-v-experiments/terraform-provider-hypervapi-v2/bin/terraform-provider-hypervapiv2.exe"]
+2025-11-17T03:30:05.348+0530 [DEBUG] provider: plugin started: path=C:/Users/ws-user/Documents/projects/hyper-v-experiments/terraform-provider-hypervapi-v2/bin/terraform-provider-hypervapiv2.exe pid=38904
+2025-11-17T03:30:05.348+0530 [DEBUG] provider: waiting for RPC address: plugin=C:/Users/ws-user/Documents/projects/hyper-v-experiments/terraform-provider-hypervapi-v2/bin/terraform-provider-hypervapiv2.exe
+2025-11-17T03:30:05.450+0530 [INFO]  provider.terraform-provider-hypervapiv2.exe: configuring server automatic mTLS: timestamp="2025-11-17T03:30:05.450+0530"
+2025-11-17T03:30:05.468+0530 [DEBUG] provider: using plugin: version=6
+2025-11-17T03:30:05.472+0530 [DEBUG] provider.terraform-provider-hypervapiv2.exe: plugin address: address=127.0.0.1:10000 network=tcp timestamp="2025-11-17T03:30:05.468+0530"
+2025-11-17T03:30:05.576+0530 [DEBUG] No provider meta schema returned
+2025-11-17T03:30:05.579+0530 [DEBUG] provider.stdio: received EOF, stopping recv loop: err="rpc error: code = Unavailable desc = error reading from server: EOF"
+2025-11-17T03:30:05.589+0530 [INFO]  provider: plugin process exited: plugin=C:/Users/ws-user/Documents/projects/hyper-v-experiments/terraform-provider-hypervapi-v2/bin/terraform-provider-hypervapiv2.exe id=38904
+2025-11-17T03:30:05.589+0530 [DEBUG] provider: plugin exited
+2025-11-17T03:30:05.589+0530 [DEBUG] Building and walking validate graph
+2025-11-17T03:30:05.590+0530 [DEBUG] ProviderTransformer: "hypervapiv2_vm.win" (*terraform.NodeValidatableResource) needs provider["registry.terraform.io/vinitsiriya/hypervapiv2"]
+2025-11-17T03:30:05.590+0530 [DEBUG] ProviderTransformer: "data.hypervapiv2_disk_plan.os" (*terraform.NodeValidatableResource) needs provider["registry.terraform.io/vinitsiriya/hypervapiv2"]
+2025-11-17T03:30:05.590+0530 [DEBUG] ProviderTransformer: "data.hypervapiv2_policy.current" (*terraform.NodeValidatableResource) needs provider["registry.terraform.io/vinitsiriya/hypervapiv2"]
+2025-11-17T03:30:05.591+0530 [DEBUG] ReferenceTransformer: "var.password" references: []
+2025-11-17T03:30:05.591+0530 [DEBUG] ReferenceTransformer: "output.os_disk_path (expand)" references: [data.hypervapiv2_disk_plan.os]
+2025-11-17T03:30:05.591+0530 [DEBUG] ReferenceTransformer: "provider[\"registry.terraform.io/vinitsiriya/hypervapiv2\"]" references: [var.endpoint var.password var.username]
+2025-11-17T03:30:05.591+0530 [DEBUG] ReferenceTransformer: "hypervapiv2_vm.win" references: [var.vm_name var.base_vhdx_path data.hypervapiv2_disk_plan.os]
+2025-11-17T03:30:05.591+0530 [DEBUG] ReferenceTransformer: "data.hypervapiv2_disk_plan.os" references: [var.vm_name var.base_vhdx_path]
+2025-11-17T03:30:05.591+0530 [DEBUG] ReferenceTransformer: "data.hypervapiv2_policy.current" references: []
+2025-11-17T03:30:05.591+0530 [DEBUG] ReferenceTransformer: "var.vm_name" references: []
+2025-11-17T03:30:05.591+0530 [DEBUG] ReferenceTransformer: "var.base_vhdx_path" references: []
+2025-11-17T03:30:05.591+0530 [DEBUG] ReferenceTransformer: "output.policy_roots (expand)" references: [data.hypervapiv2_policy.current]
+2025-11-17T03:30:05.591+0530 [DEBUG] ReferenceTransformer: "output.policy_extensions (expand)" references: [data.hypervapiv2_policy.current]
+2025-11-17T03:30:05.591+0530 [DEBUG] ReferenceTransformer: "output.base_vhdx (expand)" references: [var.base_vhdx_path]
+2025-11-17T03:30:05.591+0530 [DEBUG] ReferenceTransformer: "var.endpoint" references: []
+2025-11-17T03:30:05.591+0530 [DEBUG] ReferenceTransformer: "var.username" references: []
+2025-11-17T03:30:05.592+0530 [DEBUG] Starting graph walk: walkValidate
+2025-11-17T03:30:05.594+0530 [DEBUG] created provider logger: level=debug
+2025-11-17T03:30:05.594+0530 [INFO]  provider: configuring client automatic mTLS
+2025-11-17T03:30:05.707+0530 [DEBUG] provider: starting plugin: path=C:/Users/ws-user/Documents/projects/hyper-v-experiments/terraform-provider-hypervapi-v2/bin/terraform-provider-hypervapiv2.exe args=["C:/Users/ws-user/Documents/projects/hyper-v-experiments/terraform-provider-hypervapi-v2/bin/terraform-provider-hypervapiv2.exe"]
+2025-11-17T03:30:05.707+0530 [DEBUG] provider: plugin started: path=C:/Users/ws-user/Documents/projects/hyper-v-experiments/terraform-provider-hypervapi-v2/bin/terraform-provider-hypervapiv2.exe pid=36760
+2025-11-17T03:30:05.707+0530 [DEBUG] provider: waiting for RPC address: plugin=C:/Users/ws-user/Documents/projects/hyper-v-experiments/terraform-provider-hypervapi-v2/bin/terraform-provider-hypervapiv2.exe
+2025-11-17T03:30:05.789+0530 [INFO]  provider.terraform-provider-hypervapiv2.exe: configuring server automatic mTLS: timestamp="2025-11-17T03:30:05.789+0530"
+2025-11-17T03:30:05.818+0530 [DEBUG] provider.terraform-provider-hypervapiv2.exe: plugin address: network=tcp address=127.0.0.1:10000 timestamp="2025-11-17T03:30:05.815+0530"
+2025-11-17T03:30:05.818+0530 [DEBUG] provider: using plugin: version=6
+2025-11-17T03:30:05.946+0530 [DEBUG] provider.stdio: received EOF, stopping recv loop: err="rpc error: code = Unavailable desc = error reading from server: EOF"
+2025-11-17T03:30:05.957+0530 [INFO]  provider: plugin process exited: plugin=C:/Users/ws-user/Documents/projects/hyper-v-experiments/terraform-provider-hypervapi-v2/bin/terraform-provider-hypervapiv2.exe id=36760
+2025-11-17T03:30:05.957+0530 [DEBUG] provider: plugin exited
+2025-11-17T03:30:05.957+0530 [INFO]  backend/local: apply calling Plan
+2025-11-17T03:30:05.957+0530 [DEBUG] Building and walking plan graph for NormalMode
+2025-11-17T03:30:05.957+0530 [DEBUG] ProviderTransformer: "data.hypervapiv2_disk_plan.os (expand)" (*terraform.nodeExpandPlannableResource) needs provider["registry.terraform.io/vinitsiriya/hypervapiv2"]
+2025-11-17T03:30:05.957+0530 [DEBUG] ProviderTransformer: "hypervapiv2_vm.win (expand)" (*terraform.nodeExpandPlannableResource) needs provider["registry.terraform.io/vinitsiriya/hypervapiv2"]
+2025-11-17T03:30:05.957+0530 [DEBUG] ProviderTransformer: "data.hypervapiv2_policy.current (expand)" (*terraform.nodeExpandPlannableResource) needs provider["registry.terraform.io/vinitsiriya/hypervapiv2"]
+2025-11-17T03:30:05.958+0530 [DEBUG] ReferenceTransformer: "hypervapiv2_vm.win (expand)" references: [var.vm_name var.base_vhdx_path data.hypervapiv2_disk_plan.os (expand)]
+2025-11-17T03:30:05.958+0530 [DEBUG] ReferenceTransformer: "data.hypervapiv2_policy.current (expand)" references: []
+2025-11-17T03:30:05.958+0530 [DEBUG] ReferenceTransformer: "var.username" references: []
+2025-11-17T03:30:05.958+0530 [DEBUG] ReferenceTransformer: "var.password" references: []
+2025-11-17T03:30:05.958+0530 [DEBUG] ReferenceTransformer: "var.vm_name" references: []
+2025-11-17T03:30:05.958+0530 [DEBUG] ReferenceTransformer: "var.endpoint" references: []
+2025-11-17T03:30:05.958+0530 [DEBUG] ReferenceTransformer: "data.hypervapiv2_disk_plan.os (expand)" references: [var.base_vhdx_path var.vm_name]
+2025-11-17T03:30:05.958+0530 [DEBUG] ReferenceTransformer: "var.base_vhdx_path" references: []
+2025-11-17T03:30:05.958+0530 [DEBUG] ReferenceTransformer: "output.policy_extensions (expand)" references: [data.hypervapiv2_policy.current (expand)]
+2025-11-17T03:30:05.958+0530 [DEBUG] ReferenceTransformer: "output.base_vhdx (expand)" references: [var.base_vhdx_path]
+2025-11-17T03:30:05.958+0530 [DEBUG] ReferenceTransformer: "output.os_disk_path (expand)" references: [data.hypervapiv2_disk_plan.os (expand)]
+2025-11-17T03:30:05.958+0530 [DEBUG] ReferenceTransformer: "output.policy_roots (expand)" references: [data.hypervapiv2_policy.current (expand)]
+2025-11-17T03:30:05.958+0530 [DEBUG] ReferenceTransformer: "provider[\"registry.terraform.io/vinitsiriya/hypervapiv2\"]" references: [var.endpoint var.username var.password]
+2025-11-17T03:30:05.958+0530 [DEBUG] Starting graph walk: walkPlan
+2025-11-17T03:30:05.959+0530 [DEBUG] created provider logger: level=debug
+2025-11-17T03:30:05.959+0530 [INFO]  provider: configuring client automatic mTLS
+2025-11-17T03:30:06.086+0530 [DEBUG] provider: starting plugin: path=C:/Users/ws-user/Documents/projects/hyper-v-experiments/terraform-provider-hypervapi-v2/bin/terraform-provider-hypervapiv2.exe args=["C:/Users/ws-user/Documents/projects/hyper-v-experiments/terraform-provider-hypervapi-v2/bin/terraform-provider-hypervapiv2.exe"]
+2025-11-17T03:30:06.096+0530 [DEBUG] provider: plugin started: path=C:/Users/ws-user/Documents/projects/hyper-v-experiments/terraform-provider-hypervapi-v2/bin/terraform-provider-hypervapiv2.exe pid=38300
+2025-11-17T03:30:06.096+0530 [DEBUG] provider: waiting for RPC address: plugin=C:/Users/ws-user/Documents/projects/hyper-v-experiments/terraform-provider-hypervapi-v2/bin/terraform-provider-hypervapiv2.exe
+2025-11-17T03:30:06.202+0530 [INFO]  provider.terraform-provider-hypervapiv2.exe: configuring server automatic mTLS: timestamp="2025-11-17T03:30:06.202+0530"
+2025-11-17T03:30:06.221+0530 [DEBUG] provider.terraform-provider-hypervapiv2.exe: plugin address: address=127.0.0.1:10000 network=tcp timestamp="2025-11-17T03:30:06.221+0530"
+2025-11-17T03:30:06.221+0530 [DEBUG] provider: using plugin: version=6
+2025-11-17T03:30:06.381+0530 [INFO]  provider.terraform-provider-hypervapiv2.exe: hypervapiv2 configured: @module=hypervapiv2 auth=negotiate endpoint=http://localhost:5006 tf_req_id=96d21251-99d5-6ad2-f7fd-d1a3f96dfb66 tf_rpc=ConfigureProvider @caller=C:/Users/ws-user/Documents/projects/hyper-v-experiments/terraform-provider-hypervapi-v2/internal/provider/provider.go:134 tf_provider_addr=registry.terraform.io/vinitsiriya/hypervapiv2 timestamp="2025-11-17T03:30:06.381+0530"
+2025-11-17T03:30:06.381+0530 [WARN]  provider.terraform-provider-hypervapiv2.exe: Response contains warning diagnostic: @module=sdk.proto diagnostic_detail="endpoint=http://localhost:5006, auth=negotiate" diagnostic_severity=WARNING tf_req_id=96d21251-99d5-6ad2-f7fd-d1a3f96dfb66 tf_rpc=ConfigureProvider @caller=C:/Users/ws-user/go/pkg/mod/github.com/hashicorp/terraform-plugin-go@v0.23.0/tfprotov6/internal/diag/diagnostics.go:60 diagnostic_summary="provider configured" tf_proto_version=6.6 tf_provider_addr=registry.terraform.io/vinitsiriya/hypervapiv2 timestamp="2025-11-17T03:30:06.381+0530"
+2025-11-17T03:30:06.382+0530 [DEBUG] ReferenceTransformer: "data.hypervapiv2_policy.current" references: []
+2025-11-17T03:30:06.383+0530 [DEBUG] ReferenceTransformer: "data.hypervapiv2_disk_plan.os" references: []
+2025-11-17T03:30:06.466+0530 [DEBUG] provider.terraform-provider-hypervapiv2.exe: Value switched to prior value due to semantic equality logic: @caller=C:/Users/ws-user/go/pkg/mod/github.com/hashicorp/terraform-plugin-framework@v1.11.0/internal/fwschemadata/value_semantic_equality.go:91 tf_data_source_type=hypervapiv2_disk_plan tf_req_id=ed7749d1-9381-5e2a-918e-e4f26f6ce31b tf_rpc=ReadDataSource @module=sdk.framework tf_attribute_path=vm_name tf_provider_addr=registry.terraform.io/vinitsiriya/hypervapiv2 timestamp="2025-11-17T03:30:06.466+0530"
+2025-11-17T03:30:06.466+0530 [DEBUG] provider.terraform-provider-hypervapiv2.exe: Value switched to prior value due to semantic equality logic: tf_req_id=ed7749d1-9381-5e2a-918e-e4f26f6ce31b @module=sdk.framework tf_attribute_path=purpose tf_data_source_type=hypervapiv2_disk_plan tf_provider_addr=registry.terraform.io/vinitsiriya/hypervapiv2 tf_rpc=ReadDataSource @caller=C:/Users/ws-user/go/pkg/mod/github.com/hashicorp/terraform-plugin-framework@v1.11.0/internal/fwschemadata/value_semantic_equality.go:91 timestamp="2025-11-17T03:30:06.466+0530"
+2025-11-17T03:30:06.466+0530 [DEBUG] provider.terraform-provider-hypervapiv2.exe: Value switched to prior value due to semantic equality logic: @caller=C:/Users/ws-user/go/pkg/mod/github.com/hashicorp/terraform-plugin-framework@v1.11.0/internal/fwschemadata/value_semantic_equality.go:91 tf_attribute_path=operation tf_data_source_type=hypervapiv2_disk_plan tf_provider_addr=registry.terraform.io/vinitsiriya/hypervapiv2 tf_req_id=ed7749d1-9381-5e2a-918e-e4f26f6ce31b tf_rpc=ReadDataSource @module=sdk.framework timestamp="2025-11-17T03:30:06.466+0530"
+2025-11-17T03:30:06.466+0530 [DEBUG] provider.terraform-provider-hypervapiv2.exe: Value switched to prior value due to semantic equality logic: tf_attribute_path=clone_from tf_data_source_type=hypervapiv2_disk_plan tf_provider_addr=registry.terraform.io/vinitsiriya/hypervapiv2 tf_rpc=ReadDataSource @caller=C:/Users/ws-user/go/pkg/mod/github.com/hashicorp/terraform-plugin-framework@v1.11.0/internal/fwschemadata/value_semantic_equality.go:91 @module=sdk.framework tf_req_id=ed7749d1-9381-5e2a-918e-e4f26f6ce31b timestamp="2025-11-17T03:30:06.466+0530"
+2025-11-17T03:30:06.468+0530 [DEBUG] Resource instance state not found for node "hypervapiv2_vm.win", instance hypervapiv2_vm.win
+2025-11-17T03:30:06.468+0530 [DEBUG] ReferenceTransformer: "hypervapiv2_vm.win" references: []
+2025-11-17T03:30:06.468+0530 [DEBUG] refresh: hypervapiv2_vm.win: no state, so not refreshing
+2025-11-17T03:30:06.483+0530 [DEBUG] provider.terraform-provider-hypervapiv2.exe: Marking Computed attributes with null configuration values as unknown (known after apply) in the plan to prevent potential Terraform errors: @caller=C:/Users/ws-user/go/pkg/mod/github.com/hashicorp/terraform-plugin-framework@v1.11.0/internal/fwserver/server_planresourcechange.go:217 @module=sdk.framework tf_provider_addr=registry.terraform.io/vinitsiriya/hypervapiv2 tf_resource_type=hypervapiv2_vm tf_req_id=34454769-93ab-90e3-4b10-a9117a80ce35 tf_rpc=PlanResourceChange timestamp="2025-11-17T03:30:06.483+0530"
+2025-11-17T03:30:06.483+0530 [DEBUG] provider.terraform-provider-hypervapiv2.exe: marking computed attribute that is null in the config as unknown: @caller=C:/Users/ws-user/go/pkg/mod/github.com/hashicorp/terraform-plugin-framework@v1.11.0/internal/fwserver/server_planresourcechange.go:467 tf_req_id=34454769-93ab-90e3-4b10-a9117a80ce35 tf_resource_type=hypervapiv2_vm tf_rpc=PlanResourceChange @module=sdk.framework tf_attribute_path="AttributeName(\"id\")" tf_provider_addr=registry.terraform.io/vinitsiriya/hypervapiv2 timestamp="2025-11-17T03:30:06.483+0530"
+2025-11-17T03:30:06.499+0530 [DEBUG] provider.stdio: received EOF, stopping recv loop: err="rpc error: code = Unavailable desc = error reading from server: EOF"
+2025-11-17T03:30:06.515+0530 [INFO]  provider: plugin process exited: plugin=C:/Users/ws-user/Documents/projects/hyper-v-experiments/terraform-provider-hypervapi-v2/bin/terraform-provider-hypervapiv2.exe id=38300
+2025-11-17T03:30:06.515+0530 [DEBUG] provider: plugin exited
+2025-11-17T03:30:06.517+0530 [DEBUG] building apply graph to check for errors
+2025-11-17T03:30:06.517+0530 [DEBUG] Resource state not found for node "hypervapiv2_vm.win", instance hypervapiv2_vm.win
+2025-11-17T03:30:06.517+0530 [DEBUG] ProviderTransformer: "hypervapiv2_vm.win (expand)" (*terraform.nodeExpandApplyableResource) needs provider["registry.terraform.io/vinitsiriya/hypervapiv2"]
+2025-11-17T03:30:06.517+0530 [DEBUG] ProviderTransformer: "data.hypervapiv2_disk_plan.os (expand)" (*terraform.nodeExpandApplyableResource) needs provider["registry.terraform.io/vinitsiriya/hypervapiv2"]
+2025-11-17T03:30:06.517+0530 [DEBUG] ProviderTransformer: "hypervapiv2_vm.win" (*terraform.NodeApplyableResourceInstance) needs provider["registry.terraform.io/vinitsiriya/hypervapiv2"]
+2025-11-17T03:30:06.517+0530 [DEBUG] ProviderTransformer: "data.hypervapiv2_policy.current (expand)" (*terraform.nodeExpandApplyableResource) needs provider["registry.terraform.io/vinitsiriya/hypervapiv2"]
+2025-11-17T03:30:06.517+0530 [DEBUG] ReferenceTransformer: "data.hypervapiv2_policy.current (expand)" references: []
+2025-11-17T03:30:06.517+0530 [DEBUG] ReferenceTransformer: "var.endpoint" references: []
+2025-11-17T03:30:06.517+0530 [DEBUG] ReferenceTransformer: "var.base_vhdx_path" references: []
+2025-11-17T03:30:06.517+0530 [DEBUG] ReferenceTransformer: "output.policy_extensions (expand)" references: [data.hypervapiv2_policy.current (expand)]
+2025-11-17T03:30:06.517+0530 [DEBUG] ReferenceTransformer: "output.base_vhdx (expand)" references: [var.base_vhdx_path]
+2025-11-17T03:30:06.517+0530 [DEBUG] ReferenceTransformer: "output.os_disk_path (expand)" references: [data.hypervapiv2_disk_plan.os (expand)]
+2025-11-17T03:30:06.517+0530 [DEBUG] ReferenceTransformer: "output.policy_roots (expand)" references: [data.hypervapiv2_policy.current (expand)]
+2025-11-17T03:30:06.517+0530 [DEBUG] ReferenceTransformer: "hypervapiv2_vm.win (expand)" references: [var.vm_name var.base_vhdx_path data.hypervapiv2_disk_plan.os (expand)]
+2025-11-17T03:30:06.517+0530 [DEBUG] ReferenceTransformer: "data.hypervapiv2_disk_plan.os (expand)" references: [var.base_vhdx_path var.vm_name]
+2025-11-17T03:30:06.517+0530 [DEBUG] ReferenceTransformer: "var.username" references: []
+2025-11-17T03:30:06.517+0530 [DEBUG] ReferenceTransformer: "var.password" references: []
+2025-11-17T03:30:06.517+0530 [DEBUG] ReferenceTransformer: "var.vm_name" references: []
+2025-11-17T03:30:06.517+0530 [DEBUG] ReferenceTransformer: "hypervapiv2_vm.win" references: [var.vm_name data.hypervapiv2_disk_plan.os (expand) var.base_vhdx_path]
+2025-11-17T03:30:06.517+0530 [DEBUG] ReferenceTransformer: "provider[\"registry.terraform.io/vinitsiriya/hypervapiv2\"]" references: [var.endpoint var.username var.password]
+2025-11-17T03:30:06.522+0530 [INFO]  backend/local: apply calling Apply
+2025-11-17T03:30:06.522+0530 [DEBUG] Building and walking apply graph for NormalMode plan
+2025-11-17T03:30:06.522+0530 [DEBUG] Resource state not found for node "hypervapiv2_vm.win", instance hypervapiv2_vm.win
+2025-11-17T03:30:06.522+0530 [DEBUG] ProviderTransformer: "hypervapiv2_vm.win (expand)" (*terraform.nodeExpandApplyableResource) needs provider["registry.terraform.io/vinitsiriya/hypervapiv2"]
+2025-11-17T03:30:06.522+0530 [DEBUG] ProviderTransformer: "data.hypervapiv2_policy.current (expand)" (*terraform.nodeExpandApplyableResource) needs provider["registry.terraform.io/vinitsiriya/hypervapiv2"]
+2025-11-17T03:30:06.522+0530 [DEBUG] ProviderTransformer: "hypervapiv2_vm.win" (*terraform.NodeApplyableResourceInstance) needs provider["registry.terraform.io/vinitsiriya/hypervapiv2"]
+2025-11-17T03:30:06.522+0530 [DEBUG] ProviderTransformer: "data.hypervapiv2_disk_plan.os (expand)" (*terraform.nodeExpandApplyableResource) needs provider["registry.terraform.io/vinitsiriya/hypervapiv2"]
+2025-11-17T03:30:06.522+0530 [DEBUG] ReferenceTransformer: "output.policy_roots (expand)" references: [data.hypervapiv2_policy.current (expand)]
+2025-11-17T03:30:06.522+0530 [DEBUG] ReferenceTransformer: "output.base_vhdx (expand)" references: [var.base_vhdx_path]
+2025-11-17T03:30:06.522+0530 [DEBUG] ReferenceTransformer: "hypervapiv2_vm.win" references: [var.vm_name var.base_vhdx_path data.hypervapiv2_disk_plan.os (expand)]
+2025-11-17T03:30:06.522+0530 [DEBUG] ReferenceTransformer: "provider[\"registry.terraform.io/vinitsiriya/hypervapiv2\"]" references: [var.endpoint var.password var.username]
+2025-11-17T03:30:06.522+0530 [DEBUG] ReferenceTransformer: "data.hypervapiv2_disk_plan.os (expand)" references: [var.vm_name var.base_vhdx_path]
+2025-11-17T03:30:06.522+0530 [DEBUG] ReferenceTransformer: "var.base_vhdx_path" references: []
+2025-11-17T03:30:06.522+0530 [DEBUG] ReferenceTransformer: "var.endpoint" references: []
+2025-11-17T03:30:06.522+0530 [DEBUG] ReferenceTransformer: "var.username" references: []
+2025-11-17T03:30:06.522+0530 [DEBUG] ReferenceTransformer: "var.password" references: []
+2025-11-17T03:30:06.522+0530 [DEBUG] ReferenceTransformer: "var.vm_name" references: []
+2025-11-17T03:30:06.522+0530 [DEBUG] ReferenceTransformer: "output.os_disk_path (expand)" references: [data.hypervapiv2_disk_plan.os (expand)]
+2025-11-17T03:30:06.522+0530 [DEBUG] ReferenceTransformer: "output.policy_extensions (expand)" references: [data.hypervapiv2_policy.current (expand)]
+2025-11-17T03:30:06.522+0530 [DEBUG] ReferenceTransformer: "hypervapiv2_vm.win (expand)" references: [var.vm_name var.base_vhdx_path data.hypervapiv2_disk_plan.os (expand)]
+2025-11-17T03:30:06.522+0530 [DEBUG] ReferenceTransformer: "data.hypervapiv2_policy.current (expand)" references: []
+2025-11-17T03:30:06.522+0530 [DEBUG] Starting graph walk: walkApply
+2025-11-17T03:30:06.527+0530 [DEBUG] created provider logger: level=debug
+2025-11-17T03:30:06.527+0530 [INFO]  provider: configuring client automatic mTLS
+2025-11-17T03:30:06.628+0530 [DEBUG] provider: starting plugin: path=C:/Users/ws-user/Documents/projects/hyper-v-experiments/terraform-provider-hypervapi-v2/bin/terraform-provider-hypervapiv2.exe args=["C:/Users/ws-user/Documents/projects/hyper-v-experiments/terraform-provider-hypervapi-v2/bin/terraform-provider-hypervapiv2.exe"]
+2025-11-17T03:30:06.635+0530 [DEBUG] provider: plugin started: path=C:/Users/ws-user/Documents/projects/hyper-v-experiments/terraform-provider-hypervapi-v2/bin/terraform-provider-hypervapiv2.exe pid=1964
+2025-11-17T03:30:06.635+0530 [DEBUG] provider: waiting for RPC address: plugin=C:/Users/ws-user/Documents/projects/hyper-v-experiments/terraform-provider-hypervapi-v2/bin/terraform-provider-hypervapiv2.exe
+2025-11-17T03:30:06.707+0530 [INFO]  provider.terraform-provider-hypervapiv2.exe: configuring server automatic mTLS: timestamp="2025-11-17T03:30:06.706+0530"
+2025-11-17T03:30:06.722+0530 [DEBUG] provider: using plugin: version=6
+2025-11-17T03:30:06.722+0530 [DEBUG] provider.terraform-provider-hypervapiv2.exe: plugin address: network=tcp address=127.0.0.1:10000 timestamp="2025-11-17T03:30:06.722+0530"
+2025-11-17T03:30:06.849+0530 [INFO]  provider.terraform-provider-hypervapiv2.exe: hypervapiv2 configured: tf_req_id=9eec4df5-04c9-c1eb-932b-97a0647b5572 tf_rpc=ConfigureProvider auth=negotiate endpoint=http://localhost:5006 @caller=C:/Users/ws-user/Documents/projects/hyper-v-experiments/terraform-provider-hypervapi-v2/internal/provider/provider.go:134 @module=hypervapiv2 tf_provider_addr=registry.terraform.io/vinitsiriya/hypervapiv2 timestamp="2025-11-17T03:30:06.849+0530"
+2025-11-17T03:30:06.850+0530 [WARN]  provider.terraform-provider-hypervapiv2.exe: Response contains warning diagnostic: tf_proto_version=6.6 tf_provider_addr=registry.terraform.io/vinitsiriya/hypervapiv2 tf_req_id=9eec4df5-04c9-c1eb-932b-97a0647b5572 @module=sdk.proto diagnostic_severity=WARNING diagnostic_summary="provider configured" tf_rpc=ConfigureProvider @caller=C:/Users/ws-user/go/pkg/mod/github.com/hashicorp/terraform-plugin-go@v0.23.0/tfprotov6/internal/diag/diagnostics.go:60 diagnostic_detail="endpoint=http://localhost:5006, auth=negotiate" timestamp="2025-11-17T03:30:06.849+0530"
+2025-11-17T03:30:06.868+0530 [DEBUG] provider.terraform-provider-hypervapiv2.exe: Marking Computed attributes with null configuration values as unknown (known after apply) in the plan to prevent potential Terraform errors: tf_provider_addr=registry.terraform.io/vinitsiriya/hypervapiv2 tf_req_id=1f48a40f-03c5-1301-fe53-8c3aa48236d6 @caller=C:/Users/ws-user/go/pkg/mod/github.com/hashicorp/terraform-plugin-framework@v1.11.0/internal/fwserver/server_planresourcechange.go:217 tf_resource_type=hypervapiv2_vm tf_rpc=PlanResourceChange @module=sdk.framework timestamp="2025-11-17T03:30:06.868+0530"
+2025-11-17T03:30:06.869+0530 [DEBUG] provider.terraform-provider-hypervapiv2.exe: marking computed attribute that is null in the config as unknown: tf_rpc=PlanResourceChange @caller=C:/Users/ws-user/go/pkg/mod/github.com/hashicorp/terraform-plugin-framework@v1.11.0/internal/fwserver/server_planresourcechange.go:467 @module=sdk.framework tf_attribute_path="AttributeName(\"id\")" tf_provider_addr=registry.terraform.io/vinitsiriya/hypervapiv2 tf_req_id=1f48a40f-03c5-1301-fe53-8c3aa48236d6 tf_resource_type=hypervapiv2_vm timestamp="2025-11-17T03:30:06.868+0530"
+2025-11-17T03:30:06.879+0530 [INFO]  Starting apply for hypervapiv2_vm.win
+2025-11-17T03:30:06.880+0530 [DEBUG] hypervapiv2_vm.win: applying the planned Create change
+2025-11-17T03:30:46.772+0530 [WARN]  terraform: Stop called, initiating interrupt sequence
+2025-11-17T03:30:46.772+0530 [WARN]  terraform: run context exists, stopping
+2025-11-17T03:30:46.772+0530 [INFO]  terraform: waiting for graceful stop to complete
+2025-11-17T17:23:07.193+0530 [INFO]  Terraform version: 1.13.4
+2025-11-17T17:23:07.193+0530 [INFO]  Go runtime version: go1.24.5
+2025-11-17T17:23:07.193+0530 [INFO]  CLI args: []string{"C:\\Program Files (x86)\\terraform\\terraform.exe", "version"}
+2025-11-17T17:23:07.200+0530 [INFO]  Loading CLI configuration from C:\Users\ws-user\Documents\projects\hyper-v-experiments\terraform-provider-hypervapi-v2\dev.tfrc
+2025-11-17T17:23:07.214+0530 [INFO]  CLI command args: []string{"version"}

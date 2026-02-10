@@ -1,0 +1,30 @@
+# Testing Infrastructure — Current State
+
+# New Testing Analysis
+plans/dx_and_test_update/01-current-testing-state.md
+plans/dx_and_test_update/02-test-gaps-and-improvements.md
+
+# Existing Testing Documentation
+plans/new-jea-api-change-adjustment-updates/05-testing-strategy.md
+agent/testing-execution-guide.instructions.md
+
+# Demo Catalog (all demo directories for structure)
+demo/**/main.tf
+demo/**/Run.ps1
+demo/**/Test.ps1
+demo/**/Destroy.ps1
+
+# API Management
+scripts/Run-ApiForExample.ps1
+
+# Provider Build Context
+go.mod
+dev.tfrc
+
+# Exclude large/generated files
+-exclude:**/.terraform/**
+-exclude:**/bin/**
+-exclude:**/node_modules/**
+-exclude:**/.git/**
+-exclude:**/*.log
+-exclude:**/terraform.tfstate*

@@ -1,0 +1,6 @@
+provider_installation {
+  dev_overrides {
+    "vinitsiriya/hypervapiv2" = "C:/Users/ws-user/Documents/projects/hyper-v-experiments/terraform-provider-hypervapi-v2/bin"
+  }
+  direct {}
+}

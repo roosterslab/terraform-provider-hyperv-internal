@@ -1,0 +1,2 @@
+# Local environment (do not commit secrets)
+env.local.ps1

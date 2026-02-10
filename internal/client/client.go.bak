@@ -1,0 +1,416 @@
+package client
+
+import (
+	"bytes"
+	"context"
+	"encoding/json"
+	"fmt"
+	"io"
+	"net/http"
+	"net/url"
+	"time"
+)
+
+import (
+	"github.com/hashicorp/terraform-plugin-log/tflog"
+    "github.com/Azure/go-ntlmssp"
+)
+
+type Config struct {
+	Endpoint           string
+	Proxy              string
+	TimeoutSeconds     int
+	EnforcePolicyPaths bool
+	Strict             bool
+	Auth               AuthConfig
+	Defaults           *Defaults
+	LogHTTP            bool
+}
+
+type Defaults struct {
+	CPU    int
+	Memory string
+	Disk   string
+}
+
+type AuthConfig struct {
+	Method   string // none | bearer | negotiate
+	Username string
+	Password string
+}
+
+type Client struct {
+	cfg    Config
+	inner  *http.Client
+	base   *url.URL
+	bearer string
+	logHTTP bool
+}
+
+func New(cfg Config) (*Client, error) {
+	if cfg.Endpoint == "" {
+		return nil, fmt.Errorf("endpoint is required")
+	}
+	u, err := url.Parse(cfg.Endpoint)
+	if err != nil {
+		return nil, fmt.Errorf("invalid endpoint: %w", err)
+	}
+    tr := &http.Transport{}
+	if cfg.Proxy != "" {
+		proxyURL, err := url.Parse(cfg.Proxy)
+		if err != nil {
+			return nil, fmt.Errorf("invalid proxy: %w", err)
+		}
+		tr.Proxy = http.ProxyURL(proxyURL)
+	}
+
+    var rt http.RoundTripper = tr
+    // Enable Windows Integrated Auth (Negotiate/NTLM) when requested
+    if cfg.Auth.Method == "negotiate" {
+        rt = ntlmssp.Negotiator{RoundTripper: rt}
+    }
+
+	cli := &http.Client{Timeout: time.Duration(cfg.TimeoutSeconds) * time.Second, Transport: rt}
+	return &Client{cfg: cfg, inner: cli, base: u, logHTTP: cfg.LogHTTP}, nil
+}
+
+// do performs a JSON request and unmarshals the response.
+func (c *Client) do(ctx context.Context, method, path string, in, out any) (*http.Response, error) {
+	var body *bytes.Reader
+	if in != nil {
+		b, err := json.Marshal(in)
+		if err != nil {
+			return nil, err
+		}
+		body = bytes.NewReader(b)
+	} else {
+		body = bytes.NewReader(nil)
+	}
+
+	fullURL := c.base.ResolveReference(&url.URL{Path: path}).String()
+	req, err := http.NewRequestWithContext(ctx, method, fullURL, body)
+	if err != nil {
+		return nil, err
+	}
+	req.Header.Set("Content-Type", "application/json")
+	if c.cfg.Auth.Method == "bearer" && c.bearer != "" {
+		req.Header.Set("Authorization", "Bearer "+c.bearer)
+	}
+	// Negotiate support would require platform-specific handlers. Stubbed here.
+
+	if c.logHTTP {
+		tflog.Debug(ctx, "http.request", map[string]any{
+			"method": method,
+			"url":    fullURL,
+			"auth":   c.cfg.Auth.Method,
+		})
+	}
+
+	resp, err := c.inner.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	// Read body once so we can include informative details on errors
+	data, _ := io.ReadAll(resp.Body)
+	if c.logHTTP {
+		hdr := resp.Header.Get("Www-Authenticate")
+		// Truncate response body to avoid huge logs
+		snippet := string(data)
+		if len(snippet) > 2000 { snippet = snippet[:2000] + "...(truncated)" }
+		fields := map[string]any{"status": resp.StatusCode, "url": fullURL}
+		if hdr != "" { fields["www_authenticate"] = hdr }
+		fields["body"] = snippet
+		tflog.Debug(ctx, "http.response", fields)
+	}
+	if resp.StatusCode >= 400 {
+		// Try to decode JSON error if any, but also include raw body snippet
+		var apiErr map[string]any
+		_ = json.Unmarshal(data, &apiErr)
+		snippet := string(data)
+		if len(snippet) > 1024 { snippet = snippet[:1024] + "...(truncated)" }
+		return resp, fmt.Errorf("api %s %s -> %d: %v | body=%s", method, path, resp.StatusCode, apiErr, snippet)
+	}
+	if out != nil {
+		if err := json.Unmarshal(data, out); err != nil {
+			return resp, err
+		}
+	}
+	return resp, nil
+}
+
+// ---- Minimal endpoints used by initial data sources ----
+
+type DiskPlanRequest struct {
+	VMName       string  `json:"vm_name"`
+	Operation    string  `json:"operation"`
+	Purpose      string  `json:"purpose"`
+	SizeGB       *int    `json:"size_gb,omitempty"`
+	CloneFrom    *string `json:"clone_from,omitempty"`
+	PreferRoot   *string `json:"prefer_root,omitempty"`
+	MinFreeGB    *int    `json:"min_free_gb,omitempty"`
+	CoLocateWith *string `json:"co_locate_with,omitempty"`
+	Ext          *string `json:"ext,omitempty"`
+}
+
+type DiskPlanResponse struct {
+	Path           string   `json:"path"`
+	Reason         string   `json:"reason"`
+	MatchedRoot    string   `json:"matched_root"`
+	NormalizedPath string   `json:"normalized_path"`
+	Writable       bool     `json:"writable"`
+	FreeGBAfter    int      `json:"free_gb_after"`
+	Host           string   `json:"host"`
+	Warnings       []string `json:"warnings"`
+}
+
+func (c *Client) PlanDisk(ctx context.Context, req DiskPlanRequest) (*DiskPlanResponse, error) {
+	var out DiskPlanResponse
+	_, err := c.do(ctx, http.MethodPost, "/policy/plan-disk", req, &out)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+type PathValidateRequest struct {
+	Path      string `json:"path"`
+	Operation string `json:"operation"`
+	Ext       string `json:"ext"`
+}
+
+type PathValidateResponse struct {
+	Allowed        bool     `json:"allowed"`
+	MatchedRoot    string   `json:"matched_root"`
+	NormalizedPath string   `json:"normalized_path"`
+	Message        string   `json:"message"`
+	Violations     []string `json:"violations"`
+}
+
+func (c *Client) ValidatePath(ctx context.Context, req PathValidateRequest) (*PathValidateResponse, error) {
+	var out PathValidateResponse
+	_, err := c.do(ctx, http.MethodPost, "/policy/validate-path", req, &out)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+type WhoAmI struct {
+	User   string   `json:"user"`
+	Domain string   `json:"domain"`
+	SID    string   `json:"sid"`
+	Groups []string `json:"groups"`
+}
+
+func (c *Client) WhoAmI(ctx context.Context) (*WhoAmI, error) {
+	var out WhoAmI
+	_, err := c.do(ctx, http.MethodGet, "/identity/whoami", nil, &out)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+// Firmware/Security
+type SetSecureBootRequest struct {
+    Enabled  bool   `json:"enabled"`
+    Template string `json:"template,omitempty"`
+}
+
+func (c *Client) SetSecureBoot(ctx context.Context, name string, enabled bool, template string) error {
+    req := SetSecureBootRequest{Enabled: enabled}
+    if template != "" { req.Template = template }
+    path := fmt.Sprintf("/api/v2/vms/%s/firmware/secure-boot", url.PathEscape(name))
+    _, err := c.do(ctx, http.MethodPost, path, req, nil)
+    return err
+}
+
+func (c *Client) SetFirstBootToPrimaryDisk(ctx context.Context, name string) error {
+    path := fmt.Sprintf("/api/v2/vms/%s/firmware/first-boot", url.PathEscape(name))
+    _, err := c.do(ctx, http.MethodPost, path, map[string]any{}, nil)
+    return err
+}
+
+func (c *Client) GetFirmware(ctx context.Context, name string) (map[string]any, error) {
+    var out map[string]any
+    path := fmt.Sprintf("/api/v2/vms/%s/firmware", url.PathEscape(name))
+    _, err := c.do(ctx, http.MethodGet, path, nil, &out)
+    if err != nil { return nil, err }
+    return out, nil
+}
+
+func (c *Client) GetSecurity(ctx context.Context, name string) (map[string]any, error) {
+    var out map[string]any
+    path := fmt.Sprintf("/api/v2/vms/%s/security", url.PathEscape(name))
+    _, err := c.do(ctx, http.MethodGet, path, nil, &out)
+    if err != nil { return nil, err }
+    return out, nil
+}
+
+type PolicyEffective struct {
+	Roots      []string          `json:"roots"`
+	Extensions []string          `json:"extensions"`
+	Quotas     map[string]any    `json:"quotas"`
+	NameRules  map[string]any    `json:"name_patterns"`
+	Deny       map[string]string `json:"deny_reasons"`
+}
+
+func (c *Client) Policy(ctx context.Context) (*PolicyEffective, error) {
+	var out PolicyEffective
+	_, err := c.do(ctx, http.MethodGet, "/policy/effective", nil, &out)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+// Create VM
+type CreateVmRequest struct {
+	Name         string  `json:"name"`
+	Generation   int     `json:"generation,omitempty"`
+	CpuCount     *int    `json:"cpuCount,omitempty"`
+	MemoryMB     *int    `json:"memoryMB,omitempty"`
+	SwitchName   *string `json:"switchName,omitempty"`
+	NewVhdPath   *string `json:"newVhdPath,omitempty"`
+	NewVhdSizeGB *int    `json:"newVhdSizeGB,omitempty"`
+}
+
+// The API returns a CommandResult; capture the essential parts we care about.
+type CreateVmResponse struct {
+	Ok      bool        `json:"ok"`
+	Vm      interface{} `json:"vm"`
+	Message string      `json:"message"`
+	Name    string      `json:"name"`
+	VmId    string      `json:"vmId"`
+}
+
+func (c *Client) CreateVm(ctx context.Context, req CreateVmRequest) (*CreateVmResponse, error) {
+	var out CreateVmResponse
+	_, err := c.do(ctx, http.MethodPost, "/api/v2/vms", req, &out)
+	if err != nil {
+		return nil, err
+	}
+	return &out, nil
+}
+
+// ---- Disks: clone (two-step, async) and attach ----
+
+type ClonePrepareRequest struct {
+    SourcePath string  `json:"sourcePath"`
+    TargetPath *string `json:"targetPath,omitempty"`
+}
+
+type ClonePrepareResponse struct {
+    Token         string `json:"token"`
+    ExpiresAt     string `json:"expiresAt"`
+    PlannedTarget string `json:"plannedTarget"`
+}
+
+type CloneEnqueueRequest struct {
+    Token string `json:"token"`
+}
+
+type CloneTask struct {
+    ID          string  `json:"id"`
+    Status      string  `json:"status"`
+    SourcePath  string  `json:"source_path"`
+    TargetPath  string  `json:"target_path"`
+    BytesTotal  *int64  `json:"bytesTotal"`
+    BytesCopied *int64  `json:"bytesCopied"`
+    Error       *string `json:"error"`
+}
+
+func (c *Client) ClonePrepare(ctx context.Context, req ClonePrepareRequest) (*ClonePrepareResponse, error) {
+    var out ClonePrepareResponse
+    _, err := c.do(ctx, http.MethodPost, "/api/v2/disks/clone:prepare", req, &out)
+    if err != nil { return nil, err }
+    return &out, nil
+}
+
+func (c *Client) CloneEnqueue(ctx context.Context, token string) (string, error) {
+    body := CloneEnqueueRequest{Token: token}
+    var resp map[string]any
+    _, err := c.do(ctx, http.MethodPost, "/api/v2/disks/clone", body, &resp)
+    if err != nil { return "", err }
+    if id, ok := resp["id"].(string); ok { return id, nil }
+    return "", fmt.Errorf("id not returned from clone enqueue")
+}
+
+func (c *Client) GetCloneTask(ctx context.Context, id string) (*CloneTask, error) {
+    var out CloneTask
+    path := fmt.Sprintf("/api/v2/disks/clone/tasks/%s", url.PathEscape(id))
+    _, err := c.do(ctx, http.MethodGet, path, nil, &out)
+    if err != nil { return nil, err }
+    return &out, nil
+}
+
+// Attach existing disk to a VM
+func (c *Client) AttachDisk(ctx context.Context, vmName string, attachPath string, readOnly bool) error {
+    body := map[string]any{"attachPath": attachPath, "readOnly": readOnly}
+    path := fmt.Sprintf("/api/v2/vms/%s/disks", url.PathEscape(vmName))
+    _, err := c.do(ctx, http.MethodPost, path, body, nil)
+    return err
+}
+
+// Delete VM
+type DeleteVmRequest struct {
+	Token       string `json:"token,omitempty"`
+	Force       *bool  `json:"force,omitempty"`
+	DeleteDisks *bool  `json:"deleteDisks,omitempty"`
+}
+
+// DeleteVm performs the two-step delete and returns the raw JSON response as a map
+func (c *Client) DeleteVm(ctx context.Context, name string, req DeleteVmRequest) (map[string]any, error) {
+	var out map[string]any
+	// Two-step: prepare -> delete with token
+	type prep struct { Name string `json:"name"`; Token string `json:"token"`; ExpiresAt string `json:"expiresAt"` }
+	var p prep
+	prepPath := fmt.Sprintf("/api/v2/vms/%s:delete-prepare", url.PathEscape(name))
+	if _, err := c.do(ctx, http.MethodPost, prepPath, map[string]any{}, &p); err != nil {
+		return nil, err
+	}
+	// Use returned token
+	req.Token = p.Token
+	path := fmt.Sprintf("/api/v2/vms/%s:delete", url.PathEscape(name))
+	_, err := c.do(ctx, http.MethodPost, path, req, &out)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// Get VM minimal view (status code returned to help Read callers handle 404)
+func (c *Client) GetVm(ctx context.Context, name string) (map[string]any, int, error) {
+	var out map[string]any
+	resp, err := c.do(ctx, http.MethodGet, fmt.Sprintf("/api/v2/vms/%s", url.PathEscape(name)), nil, &out)
+	if err != nil {
+		// When server returns error, do() wraps it; attempt a best-effort status extraction via second probe without parsing
+		if resp != nil {
+			return nil, resp.StatusCode, err
+		}
+		return nil, 0, err
+	}
+	return out, 200, nil
+}
+
+// Power operations
+func (c *Client) StartVm(ctx context.Context, name string) error {
+    path := fmt.Sprintf("/api/v2/vms/%s:start", url.PathEscape(name))
+    _, err := c.do(ctx, http.MethodPost, path, nil, nil)
+    return err
+}
+
+// StopVm allows graceful, force, or turnOff semantics
+func (c *Client) StopVm(ctx context.Context, name string, force bool, turnOff bool) error {
+    u := &url.URL{Path: fmt.Sprintf("/api/v2/vms/%s:stop", url.PathEscape(name))}
+    q := url.Values{}
+    if turnOff {
+        q.Set("turnOff", "true")
+    } else if force {
+        q.Set("force", "true")
+    }
+    u.RawQuery = q.Encode()
+    _, err := c.do(ctx, http.MethodPost, u.String(), map[string]any{}, nil)
+    return err
+}

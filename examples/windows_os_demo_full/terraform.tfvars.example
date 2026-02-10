@@ -1,0 +1,39 @@
+# Windows OS Demo Full - Configuration Example
+# Copy this file to terraform.tfvars and customize
+
+# API endpoint
+endpoint = "http://localhost:5000"
+
+# VM name
+vm_name = "win-demo-full"
+
+# Path to parent Windows VHDX template (must exist and have Windows installed)
+parent_vhdx_path = "C:/HyperV/VHDX/Users/Templates/windows-base.vhdx"
+
+# VM resources
+cpu_count = 4
+memory_mb = 8192
+
+# Network
+switch_name = "Default Switch"
+
+# Notes:
+# - Parent template must be a Windows installation (sysprepped for cloning)
+# - Parent must be in policy-allowed path
+# - VM disks will be created in C:/HyperV/VHDX/Users/Demo/
+# - OS disk will be differencing (references parent)
+# - Data disk will be 100GB dynamic
+
+# Examples for different scenarios:
+
+# Development workstation
+# cpu_count = 8
+# memory_mb = 16384
+
+# Test environment
+# cpu_count = 2
+# memory_mb = 4096
+
+# Production VDI
+# cpu_count = 4
+# memory_mb = 8192

@@ -1,0 +1,61 @@
+version: '3'
+
+vars:
+  DEMO_NAME: 16_windows_perfect_with_copy_vhdx
+  VM_NAME: user-tfv2-win-copy
+  ENDPOINT: http://localhost:5006
+  BASE_VHDX: C:/HyperV/Templates/windows-base.vhdx
+
+tasks:
+  run:
+    desc: Run the {{.DEMO_NAME}} demo (apply Terraform)
+    cmds:
+      - pwsh -File Run.ps1 -VmName {{.VM_NAME}} -BaseVhdxPath {{.BASE_VHDX}}
+
+  test:
+    desc: Test the {{.DEMO_NAME}} demo (full cycle)
+    cmds:
+      - pwsh -File Test.ps1 -VmName {{.VM_NAME}}
+
+  destroy:
+    desc: Destroy the {{.DEMO_NAME}} demo resources
+    cmds:
+      - pwsh -File Destroy.ps1 -Endpoint {{.ENDPOINT}} -VmName {{.VM_NAME}}
+
+  plan:
+    desc: Show Terraform plan for {{.DEMO_NAME}} demo
+    cmds:
+      - terraform plan -var "endpoint={{.ENDPOINT}}" -var "vm_name={{.VM_NAME}}" -var "base_vhdx_path={{.BASE_VHDX}}"
+
+  clean:
+    desc: Clean up Terraform state and lock files
+    cmds:
+      - pwsh -Command "Remove-Item -Path terraform.tfstate* -Force -ErrorAction SilentlyContinue"
+
+  init:
+    desc: Initialize Terraform (with dev overrides)
+    cmds:
+      - |
+        $root = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
+        $bin = Join-Path $root 'bin'
+        $devTfrc = Join-Path $root 'dev.tfrc'
+        $binHcl = ($bin -replace '\\','/')
+        @'
+        provider_installation {
+          dev_overrides {
+            "vinitsiriya/hypervapiv2" = "REPLACE_BIN"
+          }
+          direct {}
+        }
+        '@.Replace('REPLACE_BIN', $binHcl) | Out-File -FilePath $devTfrc -Encoding ASCII -Force
+        $env:TF_CLI_CONFIG_FILE = $devTfrc
+        Write-Host "Dev overrides configured at $devTfrc"
+
+  cycle:
+    desc: Run full demo cycle (init, run, test, destroy)
+    cmds:
+      - task: init
+      - task: run
+      - task: test
+      - task: destroy
+      - task: clean

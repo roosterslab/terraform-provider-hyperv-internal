@@ -1,0 +1,6 @@
+# Only use this example if your API accepts raw NTLM.
+# Otherwise prefer the explicit-impersonation example.
+
+endpoint = "http://localhost:5000"
+username = "Workspace\\systemcore-user"
+password = "0202"

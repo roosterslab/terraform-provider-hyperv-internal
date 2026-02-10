@@ -1,0 +1,22 @@
+param(
+  [string]$Endpoint = 'http://localhost:5006',
+  [string]$VmName = "user-tfv2-protect",
+  [switch]$BuildProvider
+)
+Set-StrictMode -Version Latest
+$ErrorActionPreference = 'Stop'
+
+$root = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
+$bin = Join-Path $root 'bin'
+$null = New-Item -ItemType Directory -Path $bin -Force -ErrorAction SilentlyContinue
+if ($BuildProvider) { Write-Host '[build] Building provider' -ForegroundColor Cyan; pushd $root; go build -o (Join-Path $bin 'terraform-provider-hypervapiv2.exe') .; popd }
+
+$devTfrc = Join-Path $root 'dev.tfrc'
+if (Test-Path $devTfrc) { $env:TF_CLI_CONFIG_FILE = $devTfrc }
+
+pushd $PSScriptRoot
+try {
+  terraform init -input=false | Write-Host
+  terraform apply -auto-approve -input=false -var "endpoint=$Endpoint" -var "vm_name=$VmName" | Write-Host
+} finally { popd }
+

@@ -1,0 +1,20 @@
+# Implementation Roadmap — Action Items Only
+
+# Implementation Plan
+plans/dx_and_test_update/04-implementation-roadmap.md
+
+# Current State Context
+plans/dx_and_test_update/01-current-testing-state.md
+plans/dx_and_test_update/02-test-gaps-and-improvements.md
+plans/dx_and_test_update/03-developer-experience-analysis.md
+
+# Key Reference Files
+agent/testing-execution-guide.instructions.md
+scripts/Run-ApiForExample.ps1
+demo/01-simple-vm-new-auto/Test.ps1
+
+# Exclude generated files
+-exclude:**/.terraform/**
+-exclude:**/bin/**
+-exclude:**/node_modules/**
+-exclude:**/.git/**

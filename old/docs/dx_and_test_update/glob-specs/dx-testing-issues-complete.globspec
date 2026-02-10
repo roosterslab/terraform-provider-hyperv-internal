@@ -1,0 +1,43 @@
+# DX and Testing Issues — Complete Context Spec
+
+# New DX/Testing Analysis Documentation
+plans/dx_and_test_update/01-current-testing-state.md
+plans/dx_and_test_update/02-test-gaps-and-improvements.md
+plans/dx_and_test_update/03-developer-experience-analysis.md
+plans/dx_and_test_update/04-implementation-roadmap.md
+
+# Existing Testing Infrastructure
+agent/testing-execution-guide.instructions.md
+plans/new-jea-api-change-adjustment-updates/05-testing-strategy.md
+
+# Demo Structure Examples (key demos)
+demo/01-simple-vm-new-auto/main.tf
+demo/01-simple-vm-new-auto/Run.ps1
+demo/01-simple-vm-new-auto/Test.ps1
+demo/01-simple-vm-new-auto/Destroy.ps1
+demo/00-whoami-and-policy/main.tf
+demo/00-whoami-and-policy/Run.ps1
+demo/00-whoami-and-policy/Test.ps1
+
+# API Management Infrastructure
+scripts/Run-ApiForExample.ps1
+
+# Provider Source Structure (key files)
+go.mod
+main.go
+internal/client/client.go
+internal/resources/vm.go
+internal/resources/disk.go
+internal/resources/network.go
+
+# Build and Dev Setup
+dev.tfrc
+Taskfile.yml
+
+# Exclude generated files and large directories
+-exclude:**/.terraform/**
+-exclude:**/bin/**
+-exclude:**/node_modules/**
+-exclude:**/.git/**
+-exclude:**/*.log
+-exclude:**/terraform.tfstate*
